@@ -26,7 +26,6 @@ package org.spongepowered.common.mixin.core.util;
 
 import net.minecraft.util.EnumHand;
 import org.spongepowered.api.data.type.HandType;
-import org.spongepowered.api.text.translation.Translation;
 import org.spongepowered.asm.mixin.Mixin;
 
 import java.util.Locale;
@@ -44,8 +43,4 @@ public abstract class MixinEnumHand implements HandType {
         return ((EnumHand) (Object) this).name();
     }
 
-    @Override
-    public Translation getTranslation() {
-        return null; // Uhh.... what?
-    }
 }
