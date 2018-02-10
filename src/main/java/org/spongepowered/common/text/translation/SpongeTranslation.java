@@ -28,17 +28,28 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.base.MoreObjects;
 import org.spongepowered.api.text.translation.Translation;
+import org.spongepowered.api.text.translation.locale.Locales;
 import org.spongepowered.api.util.annotation.NonnullByDefault;
+import org.spongepowered.common.util.VecHelper;
 
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 import java.util.Locale;
 
 @NonnullByDefault
 public class SpongeTranslation implements Translation {
 
     private final String id;
+    private final List<Object> args;
 
     public SpongeTranslation(String id) {
+        this(id, Collections.EMPTY_LIST);
+    }
+
+    public SpongeTranslation(String id, Object... args) {
         this.id = checkNotNull(id, "id");
+        this.args = args.length == 1 ? Collections.singletonList(args[0]) : Arrays.asList(args);
     }
 
     @Override
@@ -49,7 +60,11 @@ public class SpongeTranslation implements Translation {
     @SuppressWarnings("deprecation")
     @Override
     public String get(Locale locale) {
-        return net.minecraft.util.text.translation.I18n.translateToLocal(this.id);
+        String translation = net.minecraft.util.text.translation.I18n.translateToLocal(this.id);
+        if (args.isEmpty()) {
+            return translation;
+        }
+        return args.size() == 1 ? String.format(translation, args.get(0)) : String.format(translation, args);
     }
 
     @SuppressWarnings("deprecation")
