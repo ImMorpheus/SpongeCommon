@@ -26,21 +26,19 @@ package org.spongepowered.common.mixin.core.stats;
 
 import net.minecraft.item.Item;
 import net.minecraft.stats.StatCrafting;
-import org.spongepowered.api.item.ItemType;
-import org.spongepowered.api.statistic.ItemStatistic;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
-import org.spongepowered.common.statistic.TypedSpongeStatistic;
+import org.spongepowered.common.interfaces.statistic.IMixinStatCrafting;
 
 @Mixin(StatCrafting.class)
-public abstract class MixinStatCrafting extends MixinStatBase implements ItemStatistic, TypedSpongeStatistic {
+public class MixinStatCrafting extends MixinStatBase implements IMixinStatCrafting {
 
     @Shadow @Final private Item item;
 
     @Override
-    public ItemType getItemType() {
-        return (ItemType) this.item;
+    public Item getItem() {
+        return this.item;
     }
 
 }

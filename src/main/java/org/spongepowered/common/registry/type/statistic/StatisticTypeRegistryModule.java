@@ -54,15 +54,10 @@ public final class StatisticTypeRegistryModule implements CatalogRegistryModule<
 
     @Override
     public void registerDefaults() {
-        this.registerDefault("basic");
-        this.registerDefault("blocks_broken", "mine_block");
-        this.registerDefault("entities_killed", "kill_entity");
-        this.registerDefault("items_broken", "break_item");
-        this.registerDefault("items_crafted", "craft_item");
-        this.registerDefault("items_dropped", "drop");
-        this.registerDefault("items_picked_up", "pickup");
-        this.registerDefault("items_used", "use_item");
-        this.registerDefault("killed_by_entity", "entity_killed_by");
+        this.registerDefault("blocksButton", "blocks");
+        this.registerDefault("generalButton", "general");
+        this.registerDefault("itemsButton", "items");
+        this.registerDefault("mobsButton", "mobs");
     }
 
     private void registerDefault(String id) {

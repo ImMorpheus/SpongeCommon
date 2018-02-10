@@ -29,6 +29,8 @@ import net.minecraft.util.text.ITextComponent;
 import org.spongepowered.api.entity.EntityType;
 import org.spongepowered.api.scoreboard.critieria.Criterion;
 import org.spongepowered.api.statistic.EntityStatistic;
+import org.spongepowered.api.statistic.StatisticType;
+import org.spongepowered.api.statistic.StatisticTypes;
 import org.spongepowered.api.text.translation.Translation;
 import org.spongepowered.common.registry.type.entity.EntityTypeRegistryModule;
 import org.spongepowered.common.text.translation.SpongeTranslation;
@@ -37,14 +39,17 @@ import java.util.Optional;
 
 import javax.annotation.Nullable;
 
-public final class SpongeEntityStatistic extends StatBase implements EntityStatistic, TypedSpongeStatistic {
+public final class SpongeEntityStatistic extends StatBase implements EntityStatistic, SpongeStatistic {
 
     private final String entityId;
     private String spongeId;
+    private Translation translation;
 
     public SpongeEntityStatistic(String statIdIn, ITextComponent statNameIn, String entityId) {
         super(statIdIn, statNameIn);
+        this.translation = new SpongeTranslation(statNameIn.getUnformattedText());
         this.entityId = entityId;
+
     }
 
     @Override
@@ -83,4 +88,8 @@ public final class SpongeEntityStatistic extends StatBase implements EntityStati
         return this.statId;
     }
 
+    @Override
+    public StatisticType getType() {
+        return StatisticTypes.MOBS;
+    }
 }

@@ -69,8 +69,10 @@ import org.spongepowered.api.scoreboard.displayslot.DisplaySlot;
 import org.spongepowered.api.statistic.BlockStatistic;
 import org.spongepowered.api.statistic.EntityStatistic;
 import org.spongepowered.api.statistic.ItemStatistic;
+import org.spongepowered.api.statistic.Statistic;
 import org.spongepowered.api.statistic.StatisticType;
 import org.spongepowered.api.statistic.StatisticTypes;
+import org.spongepowered.api.statistic.Statistics;
 import org.spongepowered.api.text.BookView;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.TextTemplate;
@@ -388,13 +390,13 @@ public class SpongeGameRegistry implements GameRegistry {
     }
 
     @Override
-    public Optional<EntityStatistic> getEntityStatistic(StatisticType statType, EntityType entityType) {
-        checkNotNull(statType, "null stat type");
+    public Optional<EntityStatistic> getEntityStatistic(Statistic stat, EntityType entityType) {
+        checkNotNull(stat, "null stat");
         checkNotNull(entityType, "null entity type");
         EntityList.EntityEggInfo eggInfo = EntityList.ENTITY_EGGS.get(new ResourceLocation(entityType.getId()));
-        if (statType.equals(StatisticTypes.ENTITIES_KILLED)) {
+        if (stat.equals(Statistics.KILL_ENTITY)) {
             return Optional.of((EntityStatistic) eggInfo.killEntityStat);
-        } else if (statType.equals(StatisticTypes.KILLED_BY_ENTITY)) {
+        } else if (stat.equals(Statistics.ENTITY_KILLED_BY)) {
             return Optional.of((EntityStatistic) eggInfo.entityKilledByStat);
         }
         throw new IllegalArgumentException("invalid entity stat type");
@@ -402,19 +404,19 @@ public class SpongeGameRegistry implements GameRegistry {
 
     @SuppressWarnings("ConstantConditions")
     @Override
-    public Optional<ItemStatistic> getItemStatistic(StatisticType statType, ItemType itemType) {
-        checkNotNull(statType, "null stat type");
+    public Optional<ItemStatistic> getItemStatistic(Statistic stat, ItemType itemType) {
+        checkNotNull(stat, "null stat type");
         checkNotNull(itemType, "null item type");
         Item item = (Item) itemType;
-        if (statType.equals(StatisticTypes.ITEMS_CRAFTED)) {
+        if (stat.equals(Statistics.CRAFTED)) {
             return Optional.of((ItemStatistic) StatList.getCraftStats(item));
-        } else if (statType.equals(StatisticTypes.ITEMS_USED)) {
+        } else if (stat.equals(Statistics.USE)) {
             return Optional.of((ItemStatistic) StatList.getObjectUseStats(item));
-        } else if (statType.equals(StatisticTypes.ITEMS_BROKEN)) {
+        } else if (stat.equals(Statistics.BREAK_ITEM)) {
             return Optional.of((ItemStatistic) StatList.getObjectBreakStats(item));
-        } else if (statType.equals(StatisticTypes.ITEMS_PICKED_UP)) {
+        } else if (stat.equals(Statistics.PICKED_UP)) {
             return Optional.of((ItemStatistic) StatList.getObjectsPickedUpStats(item));
-        } else if (statType.equals(StatisticTypes.ITEMS_DROPPED)) {
+        } else if (stat.equals(Statistics.DROPPED)) {
             return Optional.of((ItemStatistic) StatList.getDroppedObjectStats(item));
         }
         throw new IllegalArgumentException("invalid item stat type");
@@ -422,8 +424,8 @@ public class SpongeGameRegistry implements GameRegistry {
 
     @SuppressWarnings("ConstantConditions")
     @Override
-    public Optional<BlockStatistic> getBlockStatistic(StatisticType statType, BlockType blockType) {
-        if (!statType.equals(StatisticTypes.BLOCKS_BROKEN)) {
+    public Optional<BlockStatistic> getBlockStatistic(Statistic stat, BlockType blockType) {
+        if (!stat.equals(Statistics.MINE_BLOCK)) {
             throw new IllegalArgumentException("invalid block stat type");
         }
         return Optional.of((BlockStatistic) StatList.getBlockStats((Block) blockType));

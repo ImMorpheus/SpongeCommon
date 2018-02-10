@@ -29,7 +29,8 @@ import net.minecraft.stats.IStatType;
 import net.minecraft.stats.StatBase;
 import net.minecraft.util.text.ITextComponent;
 import org.spongepowered.api.scoreboard.critieria.Criterion;
-import org.spongepowered.api.statistic.Statistic;
+import org.spongepowered.api.statistic.StatisticType;
+import org.spongepowered.api.statistic.StatisticTypes;
 import org.spongepowered.api.text.translation.Translation;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -49,8 +50,8 @@ import java.util.Optional;
 
 import javax.annotation.Nullable;
 
-@Mixin(value = StatBase.class)
-public abstract class MixinStatBase implements Statistic, SpongeStatistic, IMixinStatBase {
+@Mixin(StatBase.class)
+public class MixinStatBase implements SpongeStatistic, IMixinStatBase {
 
     @Shadow @Final private static NumberFormat numberFormat;
     @Shadow @Final private static DecimalFormat decimalFormat;
@@ -113,4 +114,8 @@ public abstract class MixinStatBase implements Statistic, SpongeStatistic, IMixi
         return this.formatter;
     }
 
+    @Override
+    public StatisticType getType() {
+        return StatisticTypes.GENERAL;
+    }
 }

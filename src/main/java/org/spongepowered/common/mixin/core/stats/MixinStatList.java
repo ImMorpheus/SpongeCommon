@@ -29,20 +29,55 @@ import net.minecraft.stats.StatBase;
 import net.minecraft.stats.StatCrafting;
 import net.minecraft.stats.StatList;
 import net.minecraft.util.text.ITextComponent;
+import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.common.statistic.SpongeBlockStatistic;
 import org.spongepowered.common.statistic.SpongeEntityStatistic;
+import org.spongepowered.common.statistic.SpongeItemStatistic;
+
+import java.util.List;
 
 @Mixin(StatList.class)
 public class MixinStatList {
 
+    @Shadow @Final public static List<StatCrafting> MINE_BLOCK_STATS;
     private static final String CLASS_STAT_BASE = "class=net/minecraft/stats/StatBase";
 
     @Redirect(method = "initMiningStats", at = @At(value = "NEW", args = "class=net/minecraft/stats/StatCrafting"))
     private static StatCrafting createBlockStat(String statId, String itemName, ITextComponent statName, Item item) {
         return new SpongeBlockStatistic(statId, itemName, statName, item);
+    }
+
+    @Redirect(method = "initStats", at = @At(value = "NEW", args = "class=net/minecraft/stats/StatCrafting"))
+    private static StatCrafting createStat(String statId, String itemName, ITextComponent statName, Item item) {
+        if (MINE_BLOCK_STATS.stream().anyMatch(stat -> stat.statId.endsWith(itemName))) {
+            return new SpongeBlockStatistic(statId, itemName, statName, item);
+        }
+        return new SpongeItemStatistic(statId, itemName, statName, item);
+    }
+
+    @Redirect(method = "initItemDepleteStats", at = @At(value = "NEW", args = "class=net/minecraft/stats/StatCrafting"))
+    private static StatCrafting createItemStat(String statId, String itemName, ITextComponent statName, Item item) {
+        return new SpongeItemStatistic(statId, itemName, statName, item);
+    }
+
+    @Redirect(method = "initCraftableStats", at = @At(value = "NEW", args = "class=net/minecraft/stats/StatCrafting"))
+    private static StatCrafting createCraftableStat(String statId, String itemName, ITextComponent statName, Item item) {
+        if (MINE_BLOCK_STATS.stream().anyMatch(stat -> stat.statId.endsWith(itemName))) {
+            return new SpongeBlockStatistic(statId, itemName, statName, item);
+        }
+        return new SpongeItemStatistic(statId, itemName, statName, item);
+    }
+
+    @Redirect(method = "initPickedUpAndDroppedStats", at = @At(value = "NEW", args = "class=net/minecraft/stats/StatCrafting"))
+    private static StatCrafting createPickedAndDroppedStat(String statId, String itemName, ITextComponent statName, Item item) {
+        if (MINE_BLOCK_STATS.stream().anyMatch(stat -> stat.statId.endsWith(itemName))) {
+            return new SpongeBlockStatistic(statId, itemName, statName, item);
+        }
+        return new SpongeItemStatistic(statId, itemName, statName, item);
     }
 
     @Redirect(method = "getStatKillEntity", at = @At(value = "NEW", args = CLASS_STAT_BASE))

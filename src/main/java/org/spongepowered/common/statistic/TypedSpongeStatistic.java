@@ -26,12 +26,8 @@ package org.spongepowered.common.statistic;
 
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.statistic.StatisticType;
+import org.spongepowered.api.statistic.StatisticTypes;
 
 public interface TypedSpongeStatistic extends SpongeStatistic {
-
-    @Override
-    default StatisticType getType() {
-        return Sponge.getRegistry().getType(StatisticType.class, getId().substring(0, getId().indexOf("."))).get();
-    }
 
 }

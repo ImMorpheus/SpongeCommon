@@ -24,37 +24,37 @@
  */
 package org.spongepowered.common.statistic;
 
+import net.minecraft.block.Block;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.stats.StatCrafting;
 import net.minecraft.util.text.ITextComponent;
-import org.spongepowered.api.item.ItemType;
+import org.spongepowered.api.block.BlockType;
 import org.spongepowered.api.scoreboard.critieria.Criterion;
 import org.spongepowered.api.statistic.BlockStatistic;
+import org.spongepowered.api.statistic.StatisticType;
+import org.spongepowered.api.statistic.StatisticTypes;
 import org.spongepowered.api.text.translation.Translation;
-import org.spongepowered.common.registry.type.ItemTypeRegistryModule;
+import org.spongepowered.common.registry.type.BlockTypeRegistryModule;
 import org.spongepowered.common.text.translation.SpongeTranslation;
 
+import javax.annotation.Nullable;
 import java.util.Optional;
 
-import javax.annotation.Nullable;
-
-public final class SpongeBlockStatistic extends StatCrafting implements BlockStatistic, TypedSpongeStatistic {
+public final class SpongeBlockStatistic extends StatCrafting implements BlockStatistic, SpongeStatistic {
 
     private String spongeId;
+    private final Translation translation;
 
     public SpongeBlockStatistic(String statId, String itemName, ITextComponent statName, Item item) {
         super(statId, itemName, statName, item);
+        String text = new ItemStack(Block.getBlockFromItem(item)).getTextComponent().getUnformattedText();
+        this.translation = new SpongeTranslation(statId.substring(0, statId.length() -1), text.substring(1, text.length() - 1));
     }
 
     @Override
     public Translation getTranslation() {
-        return new SpongeTranslation(this.statId);
-    }
-
-    @Override
-    public ItemType getItemType() {
-        return ItemTypeRegistryModule.getInstance().getById(
-            this.statId.substring(this.statId.lastIndexOf('.') + 1)).get();
+        return translation;
     }
 
     @Override
@@ -83,4 +83,14 @@ public final class SpongeBlockStatistic extends StatCrafting implements BlockSta
         return this.statId;
     }
 
+    @Override
+    public StatisticType getType() {
+        return StatisticTypes.BLOCKS;
+    }
+
+    @Override
+    public BlockType getBlockType() {
+        return BlockTypeRegistryModule.getInstance().getById(
+                this.statId.substring(this.statId.lastIndexOf('.') + 1)).get();
+    }
 }

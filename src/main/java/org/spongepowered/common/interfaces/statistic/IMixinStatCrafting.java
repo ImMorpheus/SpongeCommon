@@ -22,39 +22,12 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package org.spongepowered.common.statistic;
+package org.spongepowered.common.interfaces.statistic;
 
-import org.spongepowered.api.statistic.StatisticType;
-import org.spongepowered.api.text.translation.Translation;
-import org.spongepowered.common.text.translation.SpongeTranslation;
+import net.minecraft.item.Item;
 
-import javax.annotation.Nullable;
+public interface IMixinStatCrafting extends IMixinStatBase {
 
-public final class SpongeStatisticType implements StatisticType {
-
-    private final String id;
-    @Nullable private Translation translation;
-
-    public SpongeStatisticType(String id) {
-        this.id = id;
-    }
-
-    @Override
-    public Translation getTranslation() {
-        if (this.translation == null) {
-            this.translation = new SpongeTranslation("stat." + this.id);
-        }
-        return this.translation;
-    }
-
-    @Override
-    public String getId() {
-        return this.id;
-    }
-
-    @Override
-    public String getName() {
-        return this.id;
-    }
+    Item getItem();
 
 }

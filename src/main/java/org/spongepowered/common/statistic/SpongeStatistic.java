@@ -25,7 +25,10 @@
 package org.spongepowered.common.statistic;
 
 import com.google.common.base.CaseFormat;
+import org.spongepowered.api.Sponge;
 import org.spongepowered.api.statistic.Statistic;
+import org.spongepowered.api.statistic.StatisticType;
+import org.spongepowered.api.statistic.StatisticTypes;
 import org.spongepowered.common.interfaces.statistic.IMixinStatBase;
 
 import java.text.NumberFormat;
@@ -61,4 +64,8 @@ public interface SpongeStatistic extends Statistic {
         return ((IMixinStatBase) this).format();
     }
 
+    @Override
+    default StatisticType getType() {
+        return Sponge.getRegistry().getType(StatisticType.class, getId().substring(0, getId().indexOf("."))).get();
+    }
 }
