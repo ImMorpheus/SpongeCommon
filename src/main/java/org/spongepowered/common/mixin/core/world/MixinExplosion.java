@@ -32,6 +32,7 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.enchantment.EnchantmentProtection;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.item.EntityTNTPrimed;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.SoundEvents;
@@ -61,8 +62,10 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.common.SpongeImpl;
 import org.spongepowered.common.SpongeImplHooks;
 import org.spongepowered.common.entity.EntityUtil;
+import org.spongepowered.common.event.ShouldFire;
 import org.spongepowered.common.event.tracking.PhaseTracker;
 import org.spongepowered.common.event.tracking.PhaseData;
+import org.spongepowered.common.interfaces.util.math.IMixinBlockPos;
 import org.spongepowered.common.interfaces.world.IMixinExplosion;
 import org.spongepowered.common.interfaces.world.IMixinLocation;
 import org.spongepowered.common.interfaces.world.IMixinWorldServer;
@@ -70,6 +73,7 @@ import org.spongepowered.common.util.VecHelper;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -171,12 +175,16 @@ public abstract class MixinExplosion implements Explosion, IMixinExplosion {
         // Sponge Start - If the explosion should not break blocks, don't bother calculating it
         if (this.shouldBreakBlocks) {
             // Sponge End
-            Set<BlockPos> set = Sets.<BlockPos>newHashSet();
+            Set<BlockPos> set = new HashSet<>(300);
             int i = 16;
 
+            // Sponge start - cache the chunk
+            net.minecraft.world.chunk.Chunk chunk = null;
+            // Sponge end
+
             for (int j = 0; j < 16; ++j) {
-                for (int k = 0; k < 16; ++k) {
-                    for (int l = 0; l < 16; ++l) {
+                for (int l = 0; l < 16; ++l) { // Sponge start - swap l and k
+                    for (int k = 0; k < 16; ++k) { // Sponge end
                         if (j == 0 || j == 15 || k == 0 || k == 15 || l == 0 || l == 15) {
                             double d0 = (double) ((float) j / 15.0F * 2.0F - 1.0F);
                             double d1 = (double) ((float) k / 15.0F * 2.0F - 1.0F);
@@ -190,21 +198,35 @@ public abstract class MixinExplosion implements Explosion, IMixinExplosion {
                             double d6 = this.y;
                             double d8 = this.z;
 
+                            IBlockState iblockstate;
                             for (float f1 = 0.3F; f > 0.0F; f -= 0.22500001F) {
                                 BlockPos blockpos = new BlockPos(d4, d6, d8);
-                                IBlockState iblockstate = this.world.getBlockState(blockpos);
 
-                                if (iblockstate.getMaterial() != Material.AIR) {
-                                    float f2 = this.exploder != null
-                                               ? this.exploder.getExplosionResistance((net.minecraft.world.Explosion) (Object) this
-                                            , this.world, blockpos, iblockstate)
-                                               : iblockstate.getBlock().getExplosionResistance((Entity) null);
-                                    f -= (f2 + 0.3F) * 0.3F;
-                                }
+                                if (!set.contains(blockpos)) { // Sponge - no need to process the same block twice
 
-                                if (f > 0.0F && (this.exploder == null || this.exploder
-                                        .canExplosionDestroyBlock((net.minecraft.world.Explosion) (Object) this, this.world, blockpos, iblockstate, f))) {
-                                    set.add(blockpos);
+                                    // Sponge start - avoid chunk lookup if we're in the same chunk
+                                    if (((IMixinBlockPos) blockpos).isInvalidYPosition()) {
+                                        iblockstate = Blocks.AIR.getDefaultState();
+                                    } else {
+                                        if (chunk == null || !((org.spongepowered.api.world.Chunk) chunk).containsBlock(blockpos.getX(), blockpos.getY(), blockpos.getZ())) {
+                                            chunk = this.world.getChunk(blockpos);
+                                        }
+                                        iblockstate = chunk.getBlockState(blockpos);
+                                    }
+                                    // Sponge end
+
+                                    if (iblockstate.getMaterial() != Material.AIR) {
+                                        float f2 = this.exploder != null
+                                                ? this.exploder.getExplosionResistance((net.minecraft.world.Explosion) (Object) this
+                                                , this.world, blockpos, iblockstate)
+                                                : iblockstate.getBlock().getExplosionResistance((Entity) null);
+                                        f -= (f2 + 0.3F) * 0.3F;
+                                    }
+
+                                    if (f > 0.0F && (this.exploder == null || this.exploder
+                                            .canExplosionDestroyBlock((net.minecraft.world.Explosion) (Object) this, this.world, blockpos, iblockstate, f))) {
+                                        set.add(blockpos);
+                                    }
                                 }
 
                                 d4 += d0 * 0.30000001192092896D;
@@ -231,34 +253,36 @@ public abstract class MixinExplosion implements Explosion, IMixinExplosion {
                             ? this.world.getEntitiesWithinAABBExcludingEntity(this.exploder, new AxisAlignedBB((double) k1, (double) i2, (double) j2, (double) l1, (double) i1, (double) j1))
                             : Collections.emptyList();
         // Now we can throw our Detonate Event
-        final List<Location<World>> blockPositions = new ArrayList<>(this.affectedBlockPositions.size());
-        final List<org.spongepowered.api.entity.Entity> entities = new ArrayList<>(list.size());
-        for (BlockPos pos : this.affectedBlockPositions) {
-            blockPositions.add(new Location<>((World) this.world, pos.getX(), pos.getY(), pos.getZ()));
-        }
-        for (Entity entity : list) {
-            entities.add((org.spongepowered.api.entity.Entity) entity);
-        }
-        ExplosionEvent.Detonate detonate = SpongeEventFactory.createExplosionEventDetonate(Sponge.getCauseStackManager().getCurrentCause(), blockPositions, entities, this, (World) this.world);
-        SpongeImpl.postEvent(detonate);
-        if (detonate.isCancelled()) {
-            this.affectedBlockPositions.clear();
-            return;
-        }
-        this.affectedBlockPositions.clear();
-        if (this.shouldBreakBlocks) {
-            for (Location<World> worldLocation : detonate.getAffectedLocations()) {
-                this.affectedBlockPositions.add(VecHelper.toBlockPos(worldLocation));
+        if (ShouldFire.EXPLOSION_EVENT_DETONATE) {
+            final List<Location<World>> blockPositions = new ArrayList<>(this.affectedBlockPositions.size());
+            final List<org.spongepowered.api.entity.Entity> entities = new ArrayList<>(list.size());
+            for (BlockPos pos : this.affectedBlockPositions) {
+                blockPositions.add(new Location<>((World) this.world, pos.getX(), pos.getY(), pos.getZ()));
             }
-        }
-        list.clear();
+            for (Entity entity : list) {
+                entities.add((org.spongepowered.api.entity.Entity) entity);
+            }
+            ExplosionEvent.Detonate detonate = SpongeEventFactory.createExplosionEventDetonate(Sponge.getCauseStackManager().getCurrentCause(), blockPositions, entities, this, (World) this.world);
+            SpongeImpl.postEvent(detonate);
+            if (detonate.isCancelled()) {
+                this.affectedBlockPositions.clear();
+                return;
+            }
+            this.affectedBlockPositions.clear();
+            if (this.shouldBreakBlocks) {
+                for (Location<World> worldLocation : detonate.getAffectedLocations()) {
+                    this.affectedBlockPositions.add(VecHelper.toBlockPos(worldLocation));
+                }
+            }
+            list.clear();
 
-        if (this.shouldDamageEntities) {
-            for (org.spongepowered.api.entity.Entity entity : detonate.getEntities()) {
-                try {
-                    list.add(EntityUtil.toNative(entity));
-                } catch (Exception e) {
-                    // Do nothing, a plugin tried to use the wrong entity somehow.
+            if (this.shouldDamageEntities) {
+                for (org.spongepowered.api.entity.Entity entity : detonate.getEntities()) {
+                    try {
+                        list.add(EntityUtil.toNative(entity));
+                    } catch (Exception e) {
+                        // Do nothing, a plugin tried to use the wrong entity somehow.
+                    }
                 }
             }
         }
@@ -282,6 +306,18 @@ public abstract class MixinExplosion implements Explosion, IMixinExplosion {
                         d5 = d5 / d13;
                         d7 = d7 / d13;
                         d9 = d9 / d13;
+
+                        // Sponge start
+                        if (entity instanceof EntityTNTPrimed) {
+                            double d11 = 1.0D;
+                            entity.motionX += d5 * d11;
+                            entity.motionY += d7 * d11;
+                            entity.motionZ += d9 * d11;
+                            entity.velocityChanged = true;
+                            continue;
+                        }
+                        // Sponge end
+
                         double d14 = (double) this.world.getBlockDensity(vec3d, entity.getEntityBoundingBox());
                         double d10 = (1.0D - d12) * d14;
                         entity.attackEntityFrom(
@@ -349,8 +385,19 @@ public abstract class MixinExplosion implements Explosion, IMixinExplosion {
         }
 
         if (this.shouldBreakBlocks) { // Sponge - use 'shouldBreakBlocks' instead of 'damagesTerrain'
+            net.minecraft.world.chunk.Chunk chunk = null;
+            IBlockState iblockstate;
             for (BlockPos blockpos : this.affectedBlockPositions) {
-                IBlockState iblockstate = this.world.getBlockState(blockpos);
+                // Sponge start - avoid chunk lookup if we're in the same chunk
+                if (((IMixinBlockPos) blockpos).isInvalidYPosition()) {
+                    iblockstate = Blocks.AIR.getDefaultState();
+                } else {
+                    if (chunk == null || !((org.spongepowered.api.world.Chunk) chunk).containsBlock(blockpos.getX(), blockpos.getY(), blockpos.getZ())) {
+                        chunk = this.world.getChunk(blockpos);
+                    }
+                    iblockstate = chunk.getBlockState(blockpos);
+                }
+                // Sponge end
                 Block block = iblockstate.getBlock();
 
                 if (spawnParticles) {
@@ -409,8 +456,33 @@ public abstract class MixinExplosion implements Explosion, IMixinExplosion {
         }
 
         if (this.causesFire) {
+            net.minecraft.world.chunk.Chunk chunk = null;
+            IBlockState iblockstate1;
+            IBlockState iblockstate2;
             for (BlockPos blockpos1 : this.affectedBlockPositions) {
-                if (this.world.getBlockState(blockpos1).getMaterial() == Material.AIR && this.world.getBlockState(blockpos1.down()).isFullBlock()
+                BlockPos blockpos2 = blockpos1.down();
+
+                // Sponge start - avoid chunk lookup if we're in the same chunk
+                if (((IMixinBlockPos) blockpos1).isInvalidYPosition()) {
+                    iblockstate1 = Blocks.AIR.getDefaultState();
+                } else {
+                    if (chunk == null || !((org.spongepowered.api.world.Chunk) chunk).containsBlock(blockpos1.getX(), blockpos1.getY(), blockpos1.getZ())) {
+                        chunk = this.world.getChunk(blockpos1);
+                    }
+                    iblockstate1 = chunk.getBlockState(blockpos1);
+                }
+
+                if (((IMixinBlockPos) blockpos2).isInvalidYPosition()) {
+                    iblockstate2 = Blocks.AIR.getDefaultState();
+                } else {
+                    if (chunk == null || !((org.spongepowered.api.world.Chunk) chunk).containsBlock(blockpos2.getX(), blockpos2.getY(), blockpos2.getZ())) {
+                        chunk = this.world.getChunk(blockpos2);
+                    }
+                    iblockstate2 = chunk.getBlockState(blockpos2.down());
+                }
+                // Sponge end
+
+                if (iblockstate1.getMaterial() == Material.AIR && iblockstate2.isFullBlock()
                     && this.random.nextInt(3) == 0) {
                     // Sponge Start - Track the block position being destroyed
                     final PhaseTracker phaseTracker = PhaseTracker.getInstance();

@@ -66,6 +66,9 @@ public class ShouldFire {
     public static boolean DROP_ITEM_EVENT_DESTRUCT = false;
     public static boolean DROP_ITEM_EVENT_DISPENSE = false;
 
+    public static boolean EXPLOSION_EVENT_PRE = false;
+    public static boolean EXPLOSION_EVENT_DETONATE = false;
+
     public static boolean MOVE_ENTITY_EVENT = false;
 
     public static boolean RIDE_ENTITY_EVENT = false;
@@ -87,7 +90,6 @@ public class ShouldFire {
 
     public static boolean IGNITE_ENTITY_EVENT = false;
     public static boolean NOTIFY_NEIGHBOR_BLOCK_EVENT = false;
-    public static boolean EXPLOSION_EVENT_PRE = false;
     public static boolean GAME_REGISTRY_EVENT_REGISTER = false;
     public static boolean LOAD_CHUNK_EVENT = false;
     public static boolean COLLIDE_ENTITY_EVENT = false;
