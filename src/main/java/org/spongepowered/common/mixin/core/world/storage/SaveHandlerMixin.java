@@ -54,8 +54,11 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
+import java.nio.file.StandardOpenOption;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.time.Instant;
 import java.util.Optional;
@@ -120,30 +123,19 @@ public abstract class SaveHandlerMixin implements SaveHandlerBridge {
     }
 
     private void impl$saveSpongeDatData(final WorldInfo info) {
+        final Path world = this.worldDirectory.toPath();
+
+        final Path current = world.resolve("level_sponge.dat");
+        final Path old = world.resolve("level_sponge.dat_old");
+
         try {
-            final File spongeFile1 = new File(this.worldDirectory, "level_sponge.dat_new");
-            final File spongeFile2 = new File(this.worldDirectory, "level_sponge.dat_old");
-            final File spongeFile3 = new File(this.worldDirectory, "level_sponge.dat");
-            try (final FileOutputStream stream = new FileOutputStream(spongeFile1)) {
+            Files.move(current, old, StandardCopyOption.REPLACE_EXISTING);
+
+            try (final OutputStream stream = Files.newOutputStream(current, StandardOpenOption.CREATE)) {
                 CompressedStreamTools.writeCompressed(((WorldInfoBridge) info).bridge$getSpongeRootLevelNbt(), stream);
             }
-            if (spongeFile2.exists()) {
-                spongeFile2.delete();
-            }
-
-            spongeFile3.renameTo(spongeFile2);
-
-            if (spongeFile3.exists()) {
-                spongeFile3.delete();
-            }
-
-            spongeFile1.renameTo(spongeFile3);
-
-            if (spongeFile1.exists()) {
-                spongeFile1.delete();
-            }
-        } catch (Exception exception) {
-            exception.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
