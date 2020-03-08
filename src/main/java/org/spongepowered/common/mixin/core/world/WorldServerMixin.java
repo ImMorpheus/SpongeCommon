@@ -1582,6 +1582,9 @@ public abstract class WorldServerMixin extends WorldMixin implements WorldServer
                 }
 
                 final BlockPos notifyPos = sourcePos.offset(facing);
+                if (isChunkAvailable(notifyPos)) {
+                    continue;
+                }
                 final Chunk chunk = this.getChunk(sourcePos);
                 final Block used = PhaseTracker.validateBlockForNeighborNotification((WorldServer) (Object) this, sourcePos, sourceBlock, notifyPos, chunk);
                 PhaseTracker.getInstance().notifyBlockOfStateChange(this, this.getBlockState(notifyPos), notifyPos, used, sourcePos);
