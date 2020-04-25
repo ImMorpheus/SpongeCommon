@@ -75,6 +75,7 @@ import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextComponentTranslation;
+import net.minecraft.util.text.event.ClickEvent;
 import net.minecraft.world.WorldServer;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.block.BlockSnapshot;
@@ -133,6 +134,7 @@ import org.spongepowered.common.event.tracking.phase.tick.TickPhase;
 import org.spongepowered.common.item.inventory.util.ItemStackUtil;
 import org.spongepowered.common.mixin.core.network.play.client.CPacketPlayerAccessor;
 import org.spongepowered.common.mixin.core.server.management.PlayerInteractionManagerAccessor;
+import org.spongepowered.common.mixin.core.util.text.StyleAccessor;
 import org.spongepowered.common.text.SpongeTexts;
 import org.spongepowered.common.util.Constants;
 import org.spongepowered.common.util.VecHelper;
@@ -250,7 +252,14 @@ public abstract class NetHandlerPlayServerMixin implements NetHandlerPlayServerB
         final SignData changedSignData = existingSignData.get().copy();
         final ListValue<Text> lines = changedSignData.lines();
         for (int i = 0; i < packetIn.getLines().length; i++) {
-            lines.set(i, SpongeTexts.toText(new TextComponentString(packetIn.getLines()[i])));
+            final ITextComponent line = new TextComponentString(packetIn.getLines()[i]);
+            final StyleAccessor style = (StyleAccessor) line.getStyle();
+            if (style.accessor$getClickEvent() != null && style.accessor$getClickEvent().getAction() == ClickEvent.Action.RUN_COMMAND) {
+                if (!((Player) this.player).hasPermission("minecraft.sign.update-commands")) {
+                    return ZERO_LENGTH_ARRAY;
+                }
+            }
+            lines.set(i, SpongeTexts.toText(line));
         }
         changedSignData.set(lines);
         // I pass changedSignData in here twice to emulate the fact that even-though the current sign data doesn't have the lines from the packet
