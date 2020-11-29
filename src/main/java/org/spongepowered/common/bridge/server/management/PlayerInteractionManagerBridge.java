@@ -26,10 +26,6 @@ package org.spongepowered.common.bridge.server.management;
 
 public interface PlayerInteractionManagerBridge {
 
-    boolean bridge$isInteractBlockRightClickCancelled();
-
-    void bridge$setInteractBlockRightClickCancelled(boolean cancelled);
-
     boolean bridge$isLastInteractItemOnBlockCancelled();
 
     void bridge$setLastInteractItemOnBlockCancelled(boolean lastInteractItemOnBlockCancelled);

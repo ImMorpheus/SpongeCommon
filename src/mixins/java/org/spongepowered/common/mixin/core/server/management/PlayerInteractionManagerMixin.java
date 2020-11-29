@@ -38,18 +38,7 @@ import org.spongepowered.common.bridge.server.management.PlayerInteractionManage
 public abstract class PlayerInteractionManagerMixin implements PlayerInteractionManagerBridge {
 
     private boolean impl$interactBlockLeftClickEventCancelled = false;
-    private boolean impl$interactBlockRightClickEventCancelled = false;
     private boolean impl$lastInteractItemOnBlockCancelled = false;
-
-    @Override
-    public boolean bridge$isInteractBlockRightClickCancelled() {
-        return this.impl$interactBlockRightClickEventCancelled;
-    }
-
-    @Override
-    public void bridge$setInteractBlockRightClickCancelled(final boolean cancelled) {
-        this.impl$interactBlockRightClickEventCancelled = cancelled;
-    }
 
     @Override
     public boolean bridge$isLastInteractItemOnBlockCancelled() {

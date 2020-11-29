@@ -128,7 +128,7 @@ public final class PlaceBlockPacketState extends BasicPacketState {
         final Hand hand = (Hand) (Object) context.getHandUsed();
         final net.minecraft.item.ItemStack replaced = player.getHeldItem(hand);
         player.setHeldItem(hand, ItemStackUtil.toNative(itemStack.copy()));
-        if (!TrackingUtil.processBlockCaptures(context) && !snapshot.isEmpty()) {
+        if ((!TrackingUtil.processBlockCaptures(context) && !snapshot.isEmpty()) || context.getRestoreItem()) {
             PacketPhaseUtil.handlePlayerSlotRestore(player, ItemStackUtil.toNative(itemStack), hand);
         } else {
             player.setHeldItem(hand, replaced);

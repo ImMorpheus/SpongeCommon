@@ -60,7 +60,9 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import org.spongepowered.common.bridge.inventory.container.ContainerBridge;
 import org.spongepowered.common.event.SpongeCommonEventFactory;
 import org.spongepowered.common.event.inventory.InventoryEventFactory;
+import org.spongepowered.common.event.tracking.PhaseContext;
 import org.spongepowered.common.event.tracking.PhaseTracker;
+import org.spongepowered.common.event.tracking.phase.packet.PacketContext;
 import org.spongepowered.common.registry.provider.DirectionFacingProvider;
 import org.spongepowered.common.util.VecHelper;
 import org.spongepowered.math.vector.Vector3d;
@@ -149,6 +151,12 @@ public abstract class PlayerInteractionManagerMixin_Tracker {
         final org.spongepowered.api.util.Direction direction = DirectionFacingProvider.getInstance().getKey(blockRaytraceResultIn.getFace()).get();
         InteractBlockEvent.Secondary event = SpongeCommonEventFactory.callInteractBlockEventSecondary(playerIn, stackIn, hitVec, snapshot, direction, handIn);
         if (event.isCancelled()) {
+            final PhaseContext<?> context = PhaseTracker.getInstance().getPhaseContext();
+            if (context instanceof PacketContext) {
+                if (!ItemStack.areItemStacksEqual((ItemStack) (Object) ((PacketContext<?>) context).getItemUsed(), this.player.getHeldItem(handIn))) {
+                    ((PacketContext<?>) context).restoreItem(true);
+                }
+            }
             return ActionResultType.FAIL;
         }
         Tristate useItem = event.getUseItemResult();

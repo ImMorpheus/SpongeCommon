@@ -75,34 +75,6 @@ public abstract class ServerPlayNetHandlerMixin_Tracker {
         }
     }
 
-    @Redirect(method = "processTryUseItemOnBlock",
-        at = @At(value = "INVOKE",
-            target = "Lnet/minecraft/server/management/PlayerInteractionManager;func_219441_a(Lnet/minecraft/entity/player/PlayerEntity;Lnet/minecraft/world/World;Lnet/minecraft/item/ItemStack;Lnet/minecraft/util/Hand;Lnet/minecraft/util/math/BlockRayTraceResult;)Lnet/minecraft/util/ActionResultType;"))
-    private ActionResultType tracker$checkState(final PlayerInteractionManager interactionManager, final PlayerEntity playerIn,
-             final net.minecraft.world.World worldIn, final ItemStack stack, final Hand hand, final BlockRayTraceResult rayTraceResult) {
-        final ActionResultType actionResult = interactionManager.func_219441_a(this.player, worldIn, stack, hand, rayTraceResult);
-        if (PhaseTracker.getInstance().getPhaseContext().isEmpty()) {
-            return actionResult;
-        }
-        final PacketContext<?> context = ((PacketContext<?>) PhaseTracker.getInstance().getPhaseContext());
-
-        // If a plugin or mod has changed the item, avoid restoring
-        if (!context.getInteractItemChanged()) {
-            final ItemStack itemStack = ItemStackUtil.toNative(context.getItemUsed());
-
-            // Only do a restore if something actually changed. The client does an identity check ('==')
-            // to determine if it should continue using an itemstack. If we always resend the itemstack, we end up
-            // cancelling item usage (e.g. eating food) that occurs while targeting a block
-            final boolean isInteractionCancelled = ((PlayerInteractionManagerBridge) this.player.interactionManager).bridge$isInteractBlockRightClickCancelled();
-            if (!ItemStack.areItemStacksEqual(itemStack, player.getHeldItem(hand)) && isInteractionCancelled) {
-                PacketPhaseUtil.handlePlayerSlotRestore(player, itemStack, hand);
-            }
-        }
-        context.interactItemChanged(false);
-        ((PlayerInteractionManagerBridge) this.player.interactionManager).bridge$setInteractBlockRightClickCancelled(false);
-        return actionResult;
-    }
-
     /**
      * @author gabizou
      * @reason We need to track the last primary packet being processed, and usually

@@ -46,7 +46,7 @@ public class PacketContext<P extends PacketContext<P>> extends PhaseContext<P> {
     private ItemStackSnapshot itemUsedSnapshot = ItemStackSnapshot.empty();
     @Nullable private HandType handUsed;
     private boolean ignoreCreative;
-    private boolean interactItemChanged;
+    private boolean restoreItem;
 
     protected PacketContext(final PacketState<? extends P> state, final PhaseTracker tracker) {
         super(state, tracker);
@@ -107,13 +107,13 @@ public class PacketContext<P extends PacketContext<P>> extends PhaseContext<P> {
         return this.itemUsedSnapshot;
     }
 
-    public P interactItemChanged(final boolean changed) {
-        this.interactItemChanged = changed;
+    public P restoreItem(final boolean restore) {
+        this.restoreItem = restore;
         return (P) this;
     }
 
-    public boolean getInteractItemChanged() {
-        return this.interactItemChanged;
+    public boolean getRestoreItem() {
+        return this.restoreItem;
     }
 
     public P handUsed(final HandType hand) {
@@ -146,6 +146,6 @@ public class PacketContext<P extends PacketContext<P>> extends PhaseContext<P> {
         this.itemUsedSnapshot = ItemStackSnapshot.empty();
         this.handUsed = null;
         this.ignoreCreative = false;
-        this.interactItemChanged = false;
+        this.restoreItem = false;
     }
 }
