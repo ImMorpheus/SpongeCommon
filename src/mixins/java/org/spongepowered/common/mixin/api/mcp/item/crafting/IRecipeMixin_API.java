@@ -88,9 +88,6 @@ public interface IRecipeMixin_API<C extends IInventory> {
                 .collect(Collectors.toList());
     }
 
-    default ResourceKey recipe$getKey() {
-        return (ResourceKey) (Object) this.shadow$getId();
-    }
 
     @Intrinsic
     default List<Ingredient> recipe$getIngredients() {

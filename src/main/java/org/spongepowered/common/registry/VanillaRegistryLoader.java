@@ -188,7 +188,7 @@ final class VanillaRegistryLoader {
             l.add(Criteria.LEVEL, k -> (Criterion) ScoreCriteria.LEVEL);
             l.add(Criteria.PLAYER_KILL_COUNT, k -> (Criterion) ScoreCriteria.KILL_COUNT_PLAYERS);
             l.add(Criteria.TOTAL_KILL_COUNT, k -> (Criterion) ScoreCriteria.KILL_COUNT_ALL);
-            l.add(Criteria.TRIGGER, k -> (Criterion) ScoreCriteria.TRIGGER);
+            //l.add(Criteria.TRIGGER, k -> (Criterion) ScoreCriteria.TRIGGER);
         });
     }
 

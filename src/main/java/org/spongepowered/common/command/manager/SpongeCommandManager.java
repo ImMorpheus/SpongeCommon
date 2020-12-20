@@ -494,46 +494,46 @@ public final class SpongeCommandManager implements CommandManager {
     public void init() {
         final Cause cause = PhaseTracker.getCauseStackManager().getCurrentCause();
         try {
-            SpongeParameterizedCommandRegistrar.INSTANCE.register(
-                    Launch.getInstance().getCommonPlugin(),
-                    this.spongeCommand.get().createSpongeCommand(),
-                    "sponge"
-            );
+//            SpongeParameterizedCommandRegistrar.INSTANCE.register(
+//                    Launch.getInstance().getCommonPlugin(),
+//                    this.spongeCommand.get().createSpongeCommand(),
+//                    "sponge"
+//            );
         } catch (final CommandFailedRegistrationException ex) {
             throw new RuntimeException("Failed to create root Sponge command!", ex);
         }
         try {
             final PaginationService paginationService = Sponge.getServiceProvider().paginationService();
             if (paginationService instanceof SpongePaginationService) {
-                SpongeParameterizedCommandRegistrar.INSTANCE.register(
-                        Launch.getInstance().getCommonPlugin(),
-                        ((SpongePaginationService) paginationService).createPaginationCommand(),
-                        "pagination", "page"
-                );
+//                SpongeParameterizedCommandRegistrar.INSTANCE.register(
+//                        Launch.getInstance().getCommonPlugin(),
+//                        ((SpongePaginationService) paginationService).createPaginationCommand(),
+//                        "pagination", "page"
+//                );
             }
         } catch (final CommandFailedRegistrationException ex) {
             throw new RuntimeException("Failed to create pagination command!", ex);
         }
         final Set<TypeToken<?>> usedTokens = new HashSet<>();
-        Sponge.getGame().registries().registry(SpongeRegistryTypes.COMMAND_REGISTRAR).stream().forEach(entry -> {
-            final CommandRegistrar<?> registrar = entry.value();
-            // someone's gonna do it, let's not let them take us down.
-            final TypeToken<?> handledType = registrar.handledType();
-            if (handledType == null) {
-                SpongeCommon.getLogger().error("Registrar '{}' did not provide a handledType, skipping...", registrar.getClass());
-            } else if (usedTokens.add(handledType)) { // we haven't done it yet
-                this.game.getEventManager().post(this.createEvent(cause, this.game, registrar));
-            } else {
-                SpongeCommon.getLogger()
-                        .warn("Command type '{}' has already been collected, skipping request from {}",
-                                handledType.toString(),
-                                registrar.getClass());
-            }
-        });
-        SpongeParameterizedCommandRegistrar.INSTANCE.register(
-                Launch.getInstance().getCommonPlugin(),
-                SpongeAdventure.CALLBACK_COMMAND.createCommand(),
-                "callback");
+//        Sponge.getGame().registries().registry(SpongeRegistryTypes.COMMAND_REGISTRAR).stream().forEach(entry -> {
+//            final CommandRegistrar<?> registrar = entry.value();
+//            // someone's gonna do it, let's not let them take us down.
+//            final TypeToken<?> handledType = registrar.handledType();
+//            if (handledType == null) {
+//                SpongeCommon.getLogger().error("Registrar '{}' did not provide a handledType, skipping...", registrar.getClass());
+//            } else if (usedTokens.add(handledType)) { // we haven't done it yet
+//                this.game.getEventManager().post(this.createEvent(cause, this.game, registrar));
+//            } else {
+//                SpongeCommon.getLogger()
+//                        .warn("Command type '{}' has already been collected, skipping request from {}",
+//                                handledType.toString(),
+//                                registrar.getClass());
+//            }
+//        });
+//        SpongeParameterizedCommandRegistrar.INSTANCE.register(
+//                Launch.getInstance().getCommonPlugin(),
+//                SpongeAdventure.CALLBACK_COMMAND.createCommand(),
+//                "callback");
         BrigadierCommandRegistrar.INSTANCE.completeVanillaRegistration();
         this.hasStarted = true;
     }

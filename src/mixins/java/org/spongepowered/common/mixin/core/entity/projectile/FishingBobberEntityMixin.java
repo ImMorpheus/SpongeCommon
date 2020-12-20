@@ -190,17 +190,17 @@ public abstract class FishingBobberEntityMixin extends EntityMixin {
         }
     }
 
-    @Inject(method = "checkCollision", cancellable = true, locals = LocalCapture.CAPTURE_FAILHARD,
-            at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/projectile/ProjectileHelper;getHitResult(Lnet/minecraft/entity/Entity;Ljava/util/function/Predicate;)Lnet/minecraft/util/math/RayTraceResult;"))
-    private void impl$callCollideImpactEvent(final CallbackInfo ci, final RayTraceResult hitResult) {
-        if (hitResult.getType() == RayTraceResult.Type.MISS || ((WorldBridge) this.level).bridge$isFake()) {
-            return;
-        }
-
-        if (SpongeCommonEventFactory.handleCollideImpactEvent((FishingBobberEntity) (Object) this,
-                ((Projectile) this).get(Keys.SHOOTER).orElse(null), hitResult)) {
-            this.shadow$remove();
-            ci.cancel();
-        }
-    }
+//    @Inject(method = "checkCollision", cancellable = true, locals = LocalCapture.CAPTURE_FAILHARD,
+//            at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/projectile/ProjectileHelper;getHitResult(Lnet/minecraft/entity/Entity;Ljava/util/function/Predicate;)Lnet/minecraft/util/math/RayTraceResult;"))
+//    private void impl$callCollideImpactEvent(final CallbackInfo ci, final RayTraceResult hitResult) {
+//        if (hitResult.getType() == RayTraceResult.Type.MISS || ((WorldBridge) this.level).bridge$isFake()) {
+//            return;
+//        }
+//
+//        if (SpongeCommonEventFactory.handleCollideImpactEvent((FishingBobberEntity) (Object) this,
+//                ((Projectile) this).get(Keys.SHOOTER).orElse(null), hitResult)) {
+//            this.shadow$remove();
+//            ci.cancel();
+//        }
+//    }
 }

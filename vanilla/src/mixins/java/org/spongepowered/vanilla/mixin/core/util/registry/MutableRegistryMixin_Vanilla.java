@@ -66,11 +66,11 @@ public abstract class MutableRegistryMixin_Vanilla<T> extends RegistryMixin_Vani
         return ((RegistryBridge<T>) this).bridge$getEntries().get(key.location());
     }
 
-    @Inject(method = "registerMapping", at = @At("TAIL"))
-    private void vanilla$cacheRegistryEntry(int p_218382_1_, RegistryKey<T> p_218382_2_, T p_218382_3_, Lifecycle p_218382_4_,
-            CallbackInfoReturnable<T> cir) {
-
-        this.bridge$getEntries().put((ResourceKey) (Object) p_218382_2_.location(),
-                new SpongeRegistryEntry<>((ResourceKey) (Object) p_218382_2_.location(), p_218382_3_));
-    }
+//    @Inject(method = "registerMapping", at = @At("TAIL"))
+//    private void vanilla$cacheRegistryEntry(int p_218382_1_, RegistryKey<T> p_218382_2_, T p_218382_3_, Lifecycle p_218382_4_,
+//            CallbackInfoReturnable<T> cir) {
+//
+//        this.bridge$getEntries().put((ResourceKey) (Object) p_218382_2_.location(),
+//                new SpongeRegistryEntry<>((ResourceKey) (Object) p_218382_2_.location(), p_218382_3_));
+//    }
 }

@@ -76,36 +76,36 @@ public abstract class EnderPearlEntityMixin extends ThrowableEntityMixin {
         compound.putDouble(Constants.Sponge.Entity.Projectile.PROJECTILE_DAMAGE_AMOUNT, this.impl$damageAmount);
     }
 
-    @Inject(
-            method = "onHit",
-            at = @At(value = "RETURN", ordinal = 2, shift = At.Shift.BY, by = 2),
-            locals = LocalCapture.CAPTURE_FAILHARD,
-            cancellable = true
-    )
-    private void impl$callMoveEntityEventForThrower(RayTraceResult result, CallbackInfo ci, LivingEntity entity) {
-        if (this.shadow$getCommandSenderWorld().isClientSide) {
-            return;
-        }
-        
-        try (final CauseStackManager.StackFrame frame = PhaseTracker.getCauseStackManager().pushCauseFrame()) {
-            frame.pushCause(this.shadow$getOwner());
-            frame.pushCause(this);
-            frame.addContext(EventContextKeys.MOVEMENT_TYPE, MovementTypes.ENDER_PEARL);
-
-            final MoveEntityEvent event = SpongeEventFactory.createMoveEntityEvent(frame.getCurrentCause(),
-                    (org.spongepowered.api.entity.Entity) entity, VecHelper.toVector3d(entity.position()),
-                    VecHelper.toVector3d(this.shadow$position()), VecHelper.toVector3d(this.shadow$position()));
-            if (SpongeCommon.postEvent(event)) {
-                // Eventhough the event is made, the pearl was still created so remove it anyways
-                this.shadow$remove();
-                return;
-            }
-
-            // This seems odd but we move the pearl so that the pearl's logic will move the living entity later in the impact method
-            final Vector3d destinationPosition = event.getDestinationPosition();
-            this.shadow$setPos(destinationPosition.getX(), destinationPosition.getY(), destinationPosition.getZ());
-        }
-    }
+//    @Inject(
+//            method = "onHit",
+//            at = @At(value = "RETURN", ordinal = 2, shift = At.Shift.BY, by = 2),
+//            locals = LocalCapture.CAPTURE_FAILHARD,
+//            cancellable = true
+//    )
+//    private void impl$callMoveEntityEventForThrower(RayTraceResult result, CallbackInfo ci, LivingEntity entity) {
+//        if (this.shadow$getCommandSenderWorld().isClientSide) {
+//            return;
+//        }
+//
+//        try (final CauseStackManager.StackFrame frame = PhaseTracker.getCauseStackManager().pushCauseFrame()) {
+//            frame.pushCause(this.shadow$getOwner());
+//            frame.pushCause(this);
+//            frame.addContext(EventContextKeys.MOVEMENT_TYPE, MovementTypes.ENDER_PEARL);
+//
+//            final MoveEntityEvent event = SpongeEventFactory.createMoveEntityEvent(frame.getCurrentCause(),
+//                    (org.spongepowered.api.entity.Entity) entity, VecHelper.toVector3d(entity.position()),
+//                    VecHelper.toVector3d(this.shadow$position()), VecHelper.toVector3d(this.shadow$position()));
+//            if (SpongeCommon.postEvent(event)) {
+//                // Eventhough the event is made, the pearl was still created so remove it anyways
+//                this.shadow$remove();
+//                return;
+//            }
+//
+//            // This seems odd but we move the pearl so that the pearl's logic will move the living entity later in the impact method
+//            final Vector3d destinationPosition = event.getDestinationPosition();
+//            this.shadow$setPos(destinationPosition.getX(), destinationPosition.getY(), destinationPosition.getZ());
+//        }
+//    }
 
     @Override
     @Nullable

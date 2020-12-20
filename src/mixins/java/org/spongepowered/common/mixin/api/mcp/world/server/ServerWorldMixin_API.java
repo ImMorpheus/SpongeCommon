@@ -114,7 +114,9 @@ public abstract class ServerWorldMixin_API extends WorldMixin_API<org.spongepowe
 
     @Override
     public long getSeed() {
-        return this.shadow$getSeed();
+        return 0L;
+        // stackoverflow
+        //return this.shadow$getSeed();
     }
 
     // World

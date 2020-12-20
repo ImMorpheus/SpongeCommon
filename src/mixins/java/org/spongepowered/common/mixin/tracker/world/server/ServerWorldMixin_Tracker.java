@@ -162,10 +162,10 @@ public abstract class ServerWorldMixin_Tracker extends WorldMixin_Tracker implem
      * We want to redirect the consumer caller ("updateEntity") because we need to wrap around
      * global entities being ticked, and then entities themselves being ticked is a different area/section.
      */
-    @Redirect(method = "tick",
-        at = @At(value = "INVOKE",
-            target = "Lnet/minecraft/world/server/ServerWorld;guardEntityTick(Ljava/util/function/Consumer;Lnet/minecraft/entity/Entity;)V")
-    )
+//    @Redirect(method = "tick",
+//        at = @At(value = "INVOKE",
+//            target = "Lnet/minecraft/world/server/ServerWorld;guardEntityTick(Ljava/util/function/Consumer;Lnet/minecraft/entity/Entity;)V")
+//    )
     private void tracker$wrapGlobalEntityTicking(final ServerWorld serverWorld, final Consumer<Entity> consumer, final Entity entity) {
         final PhaseContext<@NonNull ?> currentContext = PhaseTracker.SERVER.getPhaseContext();
         if (currentContext.alreadyCapturingEntityTicks()) {
@@ -177,15 +177,7 @@ public abstract class ServerWorldMixin_Tracker extends WorldMixin_Tracker implem
 
     @Redirect(method = "tick",
         at = @At(value = "INVOKE",
-            target = "Lnet/minecraft/world/server/ServerWorld;guardEntityTick(Ljava/util/function/Consumer;Lnet/minecraft/entity/Entity;)V"),
-        slice = @Slice(
-            from = @At(value = "INVOKE_STRING",
-                target = "Lnet/minecraft/profiler/IProfiler;push(Ljava/lang/String;)V",
-                args = "ldc=tick"),
-            to = @At(value = "INVOKE_STRING",
-                target = "Lnet/minecraft/profiler/IProfiler;push(Ljava/lang/String;)V",
-                args = "ldc=remove")
-        )
+            target = "Lnet/minecraft/world/server/ServerWorld;guardEntityTick(Ljava/util/function/Consumer;Lnet/minecraft/entity/Entity;)V")
     )
     private void tracker$wrapNormalEntityTick(final ServerWorld serverWorld, final Consumer<Entity> entityUpdateConsumer,
         final Entity entity

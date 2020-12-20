@@ -104,7 +104,7 @@ import java.util.function.Predicate;
 import java.util.function.Supplier;
 
 @Mixin(net.minecraft.world.World.class)
-public abstract class WorldMixin_API<W extends World<W, L>, L extends Location<W, L>> implements IWorldMixin_API<W>, World<W, L>, AutoCloseable {
+public abstract class WorldMixin_API<W extends World<W, L>, L extends Location<W, L>> implements World<W, L>, AutoCloseable {
 
     // @formatter:off
     @Shadow public @Final Random random;
@@ -140,28 +140,28 @@ public abstract class WorldMixin_API<W extends World<W, L>, L extends Location<W
 
     @Override
     public Optional<Chunk> loadChunk(final int cx, final int cy, final int cz, final boolean shouldGenerate) {
-        if (!SpongeChunkLayout.instance.isValidChunk(cx, cy, cz)) {
+        //if (!SpongeChunkLayout.instance.isValidChunk(cx, cy, cz)) {
             return Optional.empty();
-        }
-        final AbstractChunkProvider chunkProvider = this.shadow$getChunkSource();
-        // If we aren't generating, return the chunk
-        if (!shouldGenerate) {
-            // TODO correct ChunkStatus?
-            return Optional.ofNullable((Chunk) chunkProvider.getChunk(cx, cz, ChunkStatus.EMPTY, true));
-        }
-        // TODO correct ChunkStatus?
-        return Optional.ofNullable((Chunk) chunkProvider.getChunk(cx, cz, ChunkStatus.FULL, true));
+        //}
+//        final AbstractChunkProvider chunkProvider = this.shadow$getChunkSource();
+//        // If we aren't generating, return the chunk
+//        if (!shouldGenerate) {
+//            // TODO correct ChunkStatus?
+//            return Optional.ofNullable((Chunk) chunkProvider.getChunk(cx, cz, ChunkStatus.EMPTY, true));
+//        }
+//        // TODO correct ChunkStatus?
+//        return Optional.ofNullable((Chunk) chunkProvider.getChunk(cx, cz, ChunkStatus.FULL, true));
     }
 
     @Override
     public Iterable<Chunk> getLoadedChunks() {
-        final AbstractChunkProvider chunkProvider = this.shadow$getChunkSource();
-        if (chunkProvider instanceof ServerChunkProvider) {
-            final ChunkManagerAccessor chunkManager = (ChunkManagerAccessor) ((ServerChunkProvider) chunkProvider).chunkMap;
-            final List<Chunk> chunks = new ArrayList<>();
-            chunkManager.invoker$getChunks().forEach(holder -> chunks.add((Chunk) holder.getTickingChunk()));
-            return chunks;
-        }
+//        final AbstractChunkProvider chunkProvider = this.shadow$getChunkSource();
+//        if (chunkProvider instanceof ServerChunkProvider) {
+//            final ChunkManagerAccessor chunkManager = (ChunkManagerAccessor) ((ServerChunkProvider) chunkProvider).chunkMap;
+//            final List<Chunk> chunks = new ArrayList<>();
+//            chunkManager.invoker$getChunks().forEach(holder -> chunks.add((Chunk) holder.getTickingChunk()));
+//            return chunks;
+//        }
         return Collections.emptyList();
     }
 

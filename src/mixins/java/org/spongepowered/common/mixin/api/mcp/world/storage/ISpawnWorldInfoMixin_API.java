@@ -38,7 +38,7 @@ import java.util.Objects;
 
 @Mixin(ISpawnWorldInfo.class)
 @Implements(@Interface(iface = WorldProperties.class, prefix = "worldProperties$"))
-public interface ISpawnWorldInfoMixin_API extends IWorldInfoMixin_API, WorldProperties {
+public interface ISpawnWorldInfoMixin_API extends WorldProperties {
 
     // @formatter:off
     @Shadow void shadow$setXSpawn(int p_76058_1_);
@@ -53,6 +53,6 @@ public interface ISpawnWorldInfoMixin_API extends IWorldInfoMixin_API, WorldProp
     default void setSpawnPosition(final Vector3i position) {
         Objects.requireNonNull(position, "position");
 
-        this.shadow$setSpawn(VecHelper.toBlockPos(position), this.shadow$getSpawnAngle());
+        //this.shadow$setSpawn(VecHelper.toBlockPos(position), this.shadow$getSpawnAngle());
     }
 }

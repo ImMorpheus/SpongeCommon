@@ -68,7 +68,7 @@ public abstract class SaveFormat_LevelSaveMixin {
         return "The save folder for world " + this.levelPath + " is being accessed from another location, aborting";
     }
 
-    @Inject(method = "saveDataTag(Lnet/minecraft/util/registry/DynamicRegistries;Lnet/minecraft/world/storage/IServerConfiguration;Lnet/minecraft/nbt/CompoundNBT;)V", at = @At("RETURN"))
+    //@Inject(method = "saveDataTag(Lnet/minecraft/util/registry/DynamicRegistries;Lnet/minecraft/world/storage/IServerConfiguration;Lnet/minecraft/nbt/CompoundNBT;)V", at = @At("RETURN"))
     private void impl$saveSpongeLevelData(final DynamicRegistries registries, final IServerConfiguration info, final CompoundNBT compound, final CallbackInfo ci) {
         if (!Sponge.isServerAvailable() || !((IServerWorldInfoBridge) info).bridge$isValid()) {
             return;

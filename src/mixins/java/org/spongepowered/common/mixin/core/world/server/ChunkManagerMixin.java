@@ -53,7 +53,7 @@ public abstract class ChunkManagerMixin {
     @Shadow @Nullable protected abstract CompoundNBT shadow$readChunk(ChunkPos pos) throws IOException;
     // @formatter:on
 
-    @Redirect(method = "save", at = @At(value = "INVOKE", target = "Lnet/minecraft/village/PointOfInterestManager;flush(Lnet/minecraft/util/math/ChunkPos;)V"))
+    //@Redirect(method = "save", at = @At(value = "INVOKE", target = "Lnet/minecraft/village/PointOfInterestManager;flush(Lnet/minecraft/util/math/ChunkPos;)V"))
     private void impl$useSerializationBehaviorForPOI(PointOfInterestManager pointOfInterestManager, ChunkPos p_219112_1_) {
         final IServerWorldInfoBridge infoBridge = (IServerWorldInfoBridge) ((ServerWorldBridge) this.level).bridge$getLevelSave();
         final SerializationBehavior serializationBehavior = infoBridge.bridge$getSerializationBehavior();
@@ -62,7 +62,7 @@ public abstract class ChunkManagerMixin {
         }
     }
 
-    @Redirect(method = "save", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/server/ChunkManager;readChunk(Lnet/minecraft/util/math/ChunkPos;)Lnet/minecraft/nbt/CompoundNBT;"))
+    //@Redirect(method = "save", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/server/ChunkManager;readChunk(Lnet/minecraft/util/math/ChunkPos;)Lnet/minecraft/nbt/CompoundNBT;"))
     private CompoundNBT impl$useSerializationBehaviorForChunkSave(ChunkManager chunkManager, ChunkPos pos) throws IOException {
         final IServerWorldInfoBridge infoBridge = (IServerWorldInfoBridge) ((ServerWorldBridge) this.level).bridge$getLevelSave();
         final SerializationBehavior serializationBehavior = infoBridge.bridge$getSerializationBehavior();
@@ -75,7 +75,7 @@ public abstract class ChunkManagerMixin {
         return null;
     }
 
-    @Redirect(method = "save", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/chunk/storage/ChunkSerializer;write(Lnet/minecraft/world/server/ServerWorld;Lnet/minecraft/world/chunk/IChunk;)Lnet/minecraft/nbt/CompoundNBT;"))
+    //@Redirect(method = "save", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/chunk/storage/ChunkSerializer;write(Lnet/minecraft/world/server/ServerWorld;Lnet/minecraft/world/chunk/IChunk;)Lnet/minecraft/nbt/CompoundNBT;"))
     private CompoundNBT impl$useSerializationBehaviorForChunkSave(ServerWorld worldIn, IChunk chunkIn) {
         final IServerWorldInfoBridge infoBridge = (IServerWorldInfoBridge) ((ServerWorldBridge) this.level).bridge$getLevelSave();
         final SerializationBehavior serializationBehavior = infoBridge.bridge$getSerializationBehavior();
@@ -86,7 +86,7 @@ public abstract class ChunkManagerMixin {
         return null;
     }
 
-    @Redirect(method = "save", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/server/ChunkManager;write(Lnet/minecraft/util/math/ChunkPos;Lnet/minecraft/nbt/CompoundNBT;)V"))
+    //@Redirect(method = "save", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/server/ChunkManager;write(Lnet/minecraft/util/math/ChunkPos;Lnet/minecraft/nbt/CompoundNBT;)V"))
     private void impl$doNotWriteIfWeHaveNoData(ChunkManager chunkManager, ChunkPos pos, CompoundNBT compound) {
         if (compound == null) {
             return;

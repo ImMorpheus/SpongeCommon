@@ -57,7 +57,7 @@ import java.util.UUID;
 @SuppressWarnings("ConstantConditions")
 @Mixin(IServerWorldInfo.class)
 @Implements(@Interface(iface = ServerWorldProperties.class, prefix = "serverWorldProperties$"))
-public interface IServerWorldInfoMixin_API extends ISpawnWorldInfoMixin_API, ServerWorldProperties {
+public interface IServerWorldInfoMixin_API extends ServerWorldProperties {
 
     // @formatter:off
     @Shadow void shadow$setThundering(boolean p_76069_1_);
@@ -222,33 +222,33 @@ public interface IServerWorldInfoMixin_API extends ISpawnWorldInfoMixin_API, Ser
 
     @Override
     default Weather getWeather() {
-        if (this.shadow$isRaining()) {
-            return Weathers.RAIN.get();
-        } else if (this.shadow$isThundering()) {
-            return Weathers.THUNDER.get();
-        }
+//        if (this.shadow$isRaining()) {
+//            return Weathers.RAIN.get();
+//        } else if (this.shadow$isThundering()) {
+//            return Weathers.THUNDER.get();
+//        }
         return Weathers.CLEAR.get();
     }
 
     @Override
     default Ticks getRemainingWeatherDuration() {
-        if (this.shadow$isRaining()) {
-            return new SpongeTicks(this.shadow$getRainTime());
-        } else if (this.shadow$isThundering()) {
-            return new SpongeTicks(this.shadow$getThunderTime());
-        }
+//        if (this.shadow$isRaining()) {
+//            return new SpongeTicks(this.shadow$getRainTime());
+//        } else if (this.shadow$isThundering()) {
+//            return new SpongeTicks(this.shadow$getThunderTime());
+//        }
         return new SpongeTicks(this.shadow$getClearWeatherTime());
     }
 
     @Override
     default Ticks getRunningWeatherDuration() {
-        if (this.shadow$isRaining()) {
-            return new SpongeTicks(6000 - this.shadow$getRainTime());
-        } else if (this.shadow$isThundering()) {
-            return new SpongeTicks(6000 - this.shadow$getThunderTime());
-        } else {
+//        if (this.shadow$isRaining()) {
+//            return new SpongeTicks(6000 - this.shadow$getRainTime());
+//        } else if (this.shadow$isThundering()) {
+//            return new SpongeTicks(6000 - this.shadow$getThunderTime());
+//        } else {
             return new SpongeTicks(6000 - this.shadow$getClearWeatherTime());
-        }
+        //}
     }
 
     @Override
@@ -260,18 +260,18 @@ public interface IServerWorldInfoMixin_API extends ISpawnWorldInfoMixin_API, Ser
     default void setWeather(final Weather weather, final Ticks ticks) {
         if (weather == Weathers.CLEAR.get()) {
             this.shadow$setClearWeatherTime((int) ticks.getTicks());
-            this.shadow$setRaining(false);
+            //this.shadow$setRaining(false);
             this.shadow$setRainTime(0);
             this.shadow$setThundering(false);
             this.shadow$setThunderTime(0);
         } else if (weather == Weathers.RAIN.get()) {
-            this.shadow$setRaining(true);
+           // this.shadow$setRaining(true);
             this.shadow$setRainTime((int) ticks.getTicks());
             this.shadow$setThundering(false);
             this.shadow$setThunderTime(0);
             this.shadow$setClearWeatherTime(0);
         } else if (weather == Weathers.THUNDER.get()) {
-            this.shadow$setRaining(true);
+            //this.shadow$setRaining(true);
             this.shadow$setRainTime((int) ticks.getTicks());
             this.shadow$setThundering(true);
             this.shadow$setThunderTime((int) ticks.getTicks());

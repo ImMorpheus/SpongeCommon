@@ -273,14 +273,14 @@ public abstract class ServerWorldMixin extends WorldMixin implements ServerWorld
 
         if (!skipSave) {
 
-            final SerializationBehavior behavior = ((IServerWorldInfoBridge) levelData).bridge$getSerializationBehavior();
+            //final SerializationBehavior behavior = ((IServerWorldInfoBridge) levelData).bridge$getSerializationBehavior();
 
             if (progress != null) {
                 progress.progressStartNoAbort(new TranslationTextComponent("menu.savingLevel"));
             }
 
             // We always save the metadata unless it is NONE
-            if (behavior != SerializationBehavior.NONE) {
+            //if (behavior != SerializationBehavior.NONE) {
 
                 this.shadow$saveLevelData();
 
@@ -295,17 +295,17 @@ public abstract class ServerWorldMixin extends WorldMixin implements ServerWorld
                         .getSingleplayerData() : null);
 
                 // Sponge End
-            }
+            //}
             if (progress != null) {
                 progress.progressStage(new TranslationTextComponent("menu.savingChunks"));
             }
 
-            final boolean canAutomaticallySave = !this.impl$isManualSave && behavior == SerializationBehavior.AUTOMATIC;
-            final boolean canManuallySave = this.impl$isManualSave && behavior == SerializationBehavior.MANUAL;
+            //final boolean canAutomaticallySave = !this.impl$isManualSave && behavior == SerializationBehavior.AUTOMATIC;
+            //final boolean canManuallySave = this.impl$isManualSave && behavior == SerializationBehavior.MANUAL;
 
-            if (canAutomaticallySave || canManuallySave) {
+            //if (canAutomaticallySave || canManuallySave) {
                 serverchunkprovider.save(flush);
-            }
+            //}
         }
 
         this.impl$isManualSave = false;

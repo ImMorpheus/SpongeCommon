@@ -116,7 +116,7 @@ public final class SpongeGameConfigs {
         try {
             final InheritableConfigHandle<WorldConfig> config = new InheritableConfigHandle<>(new WorldConfig(), SpongeConfigs.createLoader(configPath),
                     SpongeGameConfigs.getGlobalInheritable());
-            config.load();
+            //config.load();
             return config;
         } catch (final IOException ex) {
             SpongeGameConfigs.LOGGER.error("Unable to load configuration for world {}. Sponge will use a "

@@ -176,7 +176,7 @@ public final class MetadataPanel extends ScrollPanel {
             final char c = value.charAt(i);
 
             final String lineCandidate = builder.toString() + c;
-            if (this.minecraft.font.width(lineCandidate) > width) {
+            if (this.minecraft.fontRenderer.getStringWidth(lineCandidate) > width) {
                 // Add the line with a trailing new line
                 lines.add(builder.append("\n").toString());
                 // Clear the builder for a new line

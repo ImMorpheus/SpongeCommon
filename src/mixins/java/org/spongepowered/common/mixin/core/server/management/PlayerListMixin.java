@@ -323,52 +323,52 @@ public abstract class PlayerListMixin implements PlayerListBridge {
         return this.impl$isGameMechanicRespawn;
     }
 
-    @Redirect(method = "respawn",
-        at = @At(
-            value = "INVOKE",
-            target = "Lnet/minecraft/network/play/ServerPlayNetHandler;send(Lnet/minecraft/network/IPacket;)V",
-            ordinal = 1
-        )
-    )
-    private void impl$callRespawnPlayerRecreateEvent(
-        final ServerPlayNetHandler serverPlayNetHandler, final IPacket<?> packetIn, final ServerPlayerEntity originalPlayer,
-            final DimensionType dimension, final boolean conqueredEnd) {
-        final ServerPlayerEntity recreatedPlayer = serverPlayNetHandler.player;
+//    @Redirect(method = "respawn",
+//        at = @At(
+//            value = "INVOKE",
+//            target = "Lnet/minecraft/network/play/ServerPlayNetHandler;send(Lnet/minecraft/network/IPacket;)V",
+//            ordinal = 1
+//        )
+//    )
+//    private void impl$callRespawnPlayerRecreateEvent(
+//        final ServerPlayNetHandler serverPlayNetHandler, final IPacket<?> packetIn, final ServerPlayerEntity originalPlayer,
+//            final DimensionType dimension, final boolean conqueredEnd) {
+//        final ServerPlayerEntity recreatedPlayer = serverPlayNetHandler.player;
+//
+//        final Vector3d originalPosition = VecHelper.toVector3d(originalPlayer.position());
+//        final Vector3d destinationPosition = VecHelper.toVector3d(recreatedPlayer.position());
+//        final org.spongepowered.api.world.server.ServerWorld originalWorld = (org.spongepowered.api.world.server.ServerWorld) originalPlayer.level;
+//        final org.spongepowered.api.world.server.ServerWorld originalDestinationWorld = (org.spongepowered.api.world.server.ServerWorld) this.server
+//                .getLevel(this.impl$newDestination == null ? World.OVERWORLD : this.impl$newDestination);
+//        final org.spongepowered.api.world.server.ServerWorld destinationWorld = (org.spongepowered.api.world.server.ServerWorld) recreatedPlayer.level;
+//
+//        final RespawnPlayerEvent.Recreate event =
+//                SpongeEventFactory.createRespawnPlayerEventRecreate(PhaseTracker.getCauseStackManager().getCurrentCause(), destinationPosition,
+//                        originalWorld, originalPosition, destinationWorld, originalDestinationWorld, destinationPosition, (ServerPlayer) originalPlayer,
+//                        (ServerPlayer) recreatedPlayer, this.impl$isGameMechanicRespawn, !conqueredEnd);
+//        SpongeCommon.postEvent(event);
+//        recreatedPlayer.setPos(event.getDestinationPosition().getX(), event.getDestinationPosition().getY(), event.getDestinationPosition().getZ());
+//        this.impl$isGameMechanicRespawn = false;
+//        this.impl$newDestination = null;
+//
+//        final ServerWorld targetWorld = (ServerWorld) event.getDestinationWorld();
+//        ((ServerPlayerEntityBridge) recreatedPlayer).bridge$sendChangeDimension(
+//            targetWorld.dimensionType(),
+//            ((SRespawnPacketAccessor) packetIn).accessor$dimension(),
+//            ((SRespawnPacketAccessor) packetIn).accessor$seed(),
+//            recreatedPlayer.gameMode.getGameModeForPlayer(),
+//            recreatedPlayer.gameMode.getPreviousGameModeForPlayer(),
+//            targetWorld.isDebug(),
+//            targetWorld.isFlat(),
+//            conqueredEnd
+//        );
+//    }
 
-        final Vector3d originalPosition = VecHelper.toVector3d(originalPlayer.position());
-        final Vector3d destinationPosition = VecHelper.toVector3d(recreatedPlayer.position());
-        final org.spongepowered.api.world.server.ServerWorld originalWorld = (org.spongepowered.api.world.server.ServerWorld) originalPlayer.level;
-        final org.spongepowered.api.world.server.ServerWorld originalDestinationWorld = (org.spongepowered.api.world.server.ServerWorld) this.server
-                .getLevel(this.impl$newDestination == null ? World.OVERWORLD : this.impl$newDestination);
-        final org.spongepowered.api.world.server.ServerWorld destinationWorld = (org.spongepowered.api.world.server.ServerWorld) recreatedPlayer.level;
-
-        final RespawnPlayerEvent.Recreate event =
-                SpongeEventFactory.createRespawnPlayerEventRecreate(PhaseTracker.getCauseStackManager().getCurrentCause(), destinationPosition,
-                        originalWorld, originalPosition, destinationWorld, originalDestinationWorld, destinationPosition, (ServerPlayer) originalPlayer,
-                        (ServerPlayer) recreatedPlayer, this.impl$isGameMechanicRespawn, !conqueredEnd);
-        SpongeCommon.postEvent(event);
-        recreatedPlayer.setPos(event.getDestinationPosition().getX(), event.getDestinationPosition().getY(), event.getDestinationPosition().getZ());
-        this.impl$isGameMechanicRespawn = false;
-        this.impl$newDestination = null;
-
-        final ServerWorld targetWorld = (ServerWorld) event.getDestinationWorld();
-        ((ServerPlayerEntityBridge) recreatedPlayer).bridge$sendChangeDimension(
-            targetWorld.dimensionType(),
-            ((SRespawnPacketAccessor) packetIn).accessor$dimension(),
-            ((SRespawnPacketAccessor) packetIn).accessor$seed(),
-            recreatedPlayer.gameMode.getGameModeForPlayer(),
-            recreatedPlayer.gameMode.getPreviousGameModeForPlayer(),
-            targetWorld.isDebug(),
-            targetWorld.isFlat(),
-            conqueredEnd
-        );
-    }
-
-    @Redirect(method = "sendLevelInfo", at = @At(value = "INVOKE", target = "Lnet/minecraft/server/MinecraftServer;overworld()Lnet/minecraft/world/server/ServerWorld;"))
-    private ServerWorld impl$usePerWorldWorldBorder(final MinecraftServer minecraftServer, final DimensionType dimension, final ServerPlayerEntity playerIn,
-            final ServerWorld worldIn) {
-        return worldIn;
-    }
+//    @Redirect(method = "sendLevelInfo", at = @At(value = "INVOKE", target = "Lnet/minecraft/server/MinecraftServer;overworld()Lnet/minecraft/world/server/ServerWorld;"))
+//    private ServerWorld impl$usePerWorldWorldBorder(final MinecraftServer minecraftServer, final DimensionType dimension, final ServerPlayerEntity playerIn,
+//            final ServerWorld worldIn) {
+//        return worldIn;
+//    }
 
     @Redirect(method = "sendLevelInfo", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/server/ServerWorld;getSharedSpawnPos()Lnet/minecraft/util/math/BlockPos;"))
     private BlockPos impl$resetTargetedLocationData(final ServerWorld serverWorld, final ServerPlayerEntity playerIn) {

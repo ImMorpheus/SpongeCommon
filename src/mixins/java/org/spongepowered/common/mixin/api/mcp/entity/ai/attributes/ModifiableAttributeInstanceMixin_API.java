@@ -103,14 +103,14 @@ public abstract class ModifiableAttributeInstanceMixin_API implements Attribute 
         this.shadow$addModifier((net.minecraft.entity.ai.attributes.AttributeModifier) modifier);
     }
 
-    @Override
-    public void removeModifier(final AttributeModifier modifier) {
-        this.shadow$removeModifier((net.minecraft.entity.ai.attributes.AttributeModifier) modifier);
-    }
+//    @Override
+//    public void removeModifier(final AttributeModifier modifier) {
+//        this.shadow$removeModifier((net.minecraft.entity.ai.attributes.AttributeModifier) modifier);
+//    }
 
-    @Override
-    public void removeModifier(final UUID uniqueId) {
-        this.shadow$removeModifier(uniqueId);
-    }
+//    @Override
+//    public void removeModifier(final UUID uniqueId) {
+//        this.shadow$removeModifier(uniqueId);
+//    }
 
 }

@@ -52,6 +52,7 @@ import net.minecraft.world.Dimension;
 import net.minecraft.world.DimensionType;
 import net.minecraft.world.ForcedChunksSaveData;
 import net.minecraft.world.GameRules;
+import net.minecraft.world.GameType;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldSettings;
 import net.minecraft.world.biome.BiomeManager;
@@ -894,8 +895,10 @@ public final class VanillaWorldManager implements SpongeWorldManager {
                         dimensionGeneratorSettings = DimensionGeneratorSettings.demoSettings(DynamicRegistries.builtin());
                     } else {
                         if (settings == null) {
-                            settings = new WorldSettings(this.getDirectoryName(key), levelData.getGameType(), levelData.isHardcore(),
-                                    levelData.getDifficulty(), false, new GameRules(), levelData.getDataPackConfig());
+//                            settings = new WorldSettings(this.getDirectoryName(key), levelData.getGameType(), levelData.isHardcore(),
+//                                    levelData.getDifficulty(), false, new GameRules(), levelData.getDataPackConfig());
+                            settings = new WorldSettings(this.getDirectoryName(key), GameType.SURVIVAL, false,
+                                    Difficulty.NORMAL, false, new GameRules(), DatapackCodec.DEFAULT);
 
                             ((WorldSettingsBridge) (Object) settings).bridge$setConfigExists(configExists);
                             ((WorldSettingsBridge) (Object) settings).bridge$setInfoConfigAdapter(configAdapter);
@@ -908,26 +911,27 @@ public final class VanillaWorldManager implements SpongeWorldManager {
                     }
 
                     levelData = new ServerWorldInfo(settings, dimensionGeneratorSettings, Lifecycle.stable());
-                    if (populateLevelDataFromSettings) {
-                        ((WorldSettingsBridge) (Object) settings).bridge$populateInfo((IServerWorldInfoBridge) levelData);
-                    }
+//                    if (populateLevelDataFromSettings) {
+//                        ((WorldSettingsBridge) (Object) settings).bridge$populateInfo((IServerWorldInfoBridge) levelData);
+//                    }
                 }
             }
 
-            ((IServerWorldInfoBridge) levelData).bridge$setConfigAdapter(configAdapter);
-            ((ResourceKeyBridge) levelData).bridge$setKey(worldRegistration.getKey());
+//            ((IServerWorldInfoBridge) levelData).bridge$setConfigAdapter(configAdapter);
+//            ((ResourceKeyBridge) levelData).bridge$setKey(worldRegistration.getKey());
 
             if (isNewLevelData) {
-                ((IServerWorldInfoBridge) levelData).bridge$setUniqueId(UUID.randomUUID());
+                //((IServerWorldInfoBridge) levelData).bridge$setUniqueId(UUID.randomUUID());
 
-                SpongeCommon.postEvent(SpongeEventFactory.createConstructWorldPropertiesEvent(
-                        PhaseTracker.getCauseStackManager().getCurrentCause(),
-                        (WorldArchetype) (Object) settings, (ServerWorldProperties) levelData));
-            } else if (((ResourceKeyBridge) levelData).bridge$getKey() == null) {
-                ((IServerWorldInfoBridge) levelData).bridge$setUniqueId(UUID.randomUUID());
-                ((ResourceKeyBridge) levelData).bridge$setKey(key);
-                ((IServerWorldInfoBridge) levelData).bridge$setDimensionType(dimensionType, false);
+//                SpongeCommon.postEvent(SpongeEventFactory.createConstructWorldPropertiesEvent(
+//                        PhaseTracker.getCauseStackManager().getCurrentCause(),
+//                        (WorldArchetype) (Object) settings, (ServerWorldProperties) levelData));
             }
+            //else if (((ResourceKeyBridge) levelData).bridge$getKey() == null) {
+                //((IServerWorldInfoBridge) levelData).bridge$setUniqueId(UUID.randomUUID());
+  //              ((ResourceKeyBridge) levelData).bridge$setKey(key);
+                //((IServerWorldInfoBridge) levelData).bridge$setDimensionType(dimensionType, false);
+            //}
 
             levelData.setModdedInfo(this.server.getServerModName(), this.server.getModdedStatus().isPresent());
 
@@ -985,6 +989,7 @@ public final class VanillaWorldManager implements SpongeWorldManager {
     private void loadSpawnChunks(final ServerWorld serverWorld, final IChunkStatusListener chunkStatusListener) {
         MinecraftServerAccessor.accessor$LOGGER().info("Preparing start region for world '{}' ({})", serverWorld.dimension().location(),
                 SpongeCommon.getServer().registryAccess().dimensionTypes().getKey(serverWorld.dimensionType()));
+        if (true) return;
         final BlockPos spawnPoint = serverWorld.getSharedSpawnPos();
         final ChunkPos chunkPos = new ChunkPos(spawnPoint);
         chunkStatusListener.updateSpawnPos(chunkPos);
@@ -1018,9 +1023,9 @@ public final class VanillaWorldManager implements SpongeWorldManager {
         serverChunkProvider.getLightEngine().setTaskPerBatch(5);
 
         // Sponge Start - Release the chunk ticket if spawn is not set to be kept loaded...
-        if (!((IServerWorldInfoBridge) serverWorld.getLevelData()).bridge$doesKeepSpawnLoaded()) {
-            serverChunkProvider.removeRegionTicket(VanillaWorldManager.SPAWN_CHUNKS, chunkPos, 11, serverWorld.dimension().location());
-        }
+//        if (!((IServerWorldInfoBridge) serverWorld.getLevelData()).bridge$doesKeepSpawnLoaded()) {
+//            serverChunkProvider.removeRegionTicket(VanillaWorldManager.SPAWN_CHUNKS, chunkPos, 11, serverWorld.dimension().location());
+//        }
     }
 
     private void loadExistingWorldRegistrations() throws IOException {
@@ -1085,13 +1090,13 @@ public final class VanillaWorldManager implements SpongeWorldManager {
         SpongeCommon.postEvent(SpongeEventFactory.createLoadWorldEvent(PhaseTracker.getCauseStackManager().getCurrentCause(),
                 apiWorld));
 
-        final boolean generateSpawnOnLoad = ((IServerWorldInfoBridge) levelData).bridge$doesGenerateSpawnOnLoad() || isDefaultWorld;
+//        final boolean generateSpawnOnLoad = ((IServerWorldInfoBridge) levelData).bridge$doesGenerateSpawnOnLoad() || isDefaultWorld;
 
-        if (generateSpawnOnLoad) {
+  //      if (generateSpawnOnLoad) {
             this.loadSpawnChunks(serverWorld, listener);
-        } else {
-            serverWorld.getChunkSource().addRegionTicket(VanillaWorldManager.SPAWN_CHUNKS, new ChunkPos(apiWorld.getProperties().getSpawnPosition()
-                            .getX(), apiWorld.getProperties().getSpawnPosition().getZ()), 11, (ResourceLocation) (Object) apiWorld.getKey());
-        }
+    //    } else {
+        //    serverWorld.getChunkSource().addRegionTicket(VanillaWorldManager.SPAWN_CHUNKS, new ChunkPos(apiWorld.getProperties().getSpawnPosition()
+          //                  .getX(), apiWorld.getProperties().getSpawnPosition().getZ()), 11, (ResourceLocation) (Object) apiWorld.getKey());
+      //  }
     }
 }

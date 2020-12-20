@@ -140,28 +140,28 @@ public abstract class ItemFireworkMixin {
         return false;
     }
 
-    @Inject(method = "useOn",
-        at = @At(value = "INVOKE", target = "Lnet/minecraft/world/World;addFreshEntity(Lnet/minecraft/entity/Entity;)Z"),
-        locals = LocalCapture.CAPTURE_FAILSOFT,
-        cancellable = true
-    )
-    private void spongeImpl$InjectPrimeEventAndCancel(final ItemUseContext context, final CallbackInfoReturnable<ActionResultType> cir, final ItemStack usedItem, final net.minecraft.util.math.vector.Vector3d vec3d, final FireworkRocketEntity rocket) {
-        if (this.spongeImpl$ThrowPrimeEventAndGetCancel(context.getLevel(), context.getPlayer(), rocket, usedItem)) {
-            cir.setReturnValue(ActionResultType.SUCCESS);
-        }
-    }
-    @Inject(method = "use(Lnet/minecraft/world/World;Lnet/minecraft/entity/player/PlayerEntity;Lnet/minecraft/util/Hand;)Lnet/minecraft/util/ActionResult;",
-        at = @At(value = "INVOKE", target = "Lnet/minecraft/world/World;addFreshEntity(Lnet/minecraft/entity/Entity;)Z"),
-        locals = LocalCapture.CAPTURE_FAILSOFT,
-        cancellable = true
-    )
-    private void spongeImpl$InjectPrimeEventAndCancel(final World worldIn, final PlayerEntity player, final Hand handIn,
-        final CallbackInfoReturnable<ActionResult<ItemStack>> cir, final ItemStack usedItem, final FireworkRocketEntity rocket) {
-        if (this.spongeImpl$ThrowPrimeEventAndGetCancel(worldIn, player, rocket, usedItem)) {
-            // We have to still return success because the server/client can get out of sync otherwise.
-            cir.setReturnValue(new ActionResult<>(ActionResultType.SUCCESS, usedItem));
-        }
-    }
+//    @Inject(method = "useOn",
+//        at = @At(value = "INVOKE", target = "Lnet/minecraft/world/World;addFreshEntity(Lnet/minecraft/entity/Entity;)Z"),
+//        locals = LocalCapture.CAPTURE_FAILSOFT,
+//        cancellable = true
+//    )
+//    private void spongeImpl$InjectPrimeEventAndCancel(final ItemUseContext context, final CallbackInfoReturnable<ActionResultType> cir, final ItemStack usedItem, final net.minecraft.util.math.vector.Vector3d vec3d, final FireworkRocketEntity rocket) {
+//        if (this.spongeImpl$ThrowPrimeEventAndGetCancel(context.getLevel(), context.getPlayer(), rocket, usedItem)) {
+//            cir.setReturnValue(ActionResultType.SUCCESS);
+//        }
+//    }
+//    @Inject(method = "use(Lnet/minecraft/world/World;Lnet/minecraft/entity/player/PlayerEntity;Lnet/minecraft/util/Hand;)Lnet/minecraft/util/ActionResult;",
+//        at = @At(value = "INVOKE", target = "Lnet/minecraft/world/World;addFreshEntity(Lnet/minecraft/entity/Entity;)Z"),
+//        locals = LocalCapture.CAPTURE_FAILSOFT,
+//        cancellable = true
+//    )
+//    private void spongeImpl$InjectPrimeEventAndCancel(final World worldIn, final PlayerEntity player, final Hand handIn,
+//        final CallbackInfoReturnable<ActionResult<ItemStack>> cir, final ItemStack usedItem, final FireworkRocketEntity rocket) {
+//        if (this.spongeImpl$ThrowPrimeEventAndGetCancel(worldIn, player, rocket, usedItem)) {
+//            // We have to still return success because the server/client can get out of sync otherwise.
+//            cir.setReturnValue(new ActionResult<>(ActionResultType.SUCCESS, usedItem));
+//        }
+//    }
 
     /**
      * Private method for throwing the prime events on the firework. If

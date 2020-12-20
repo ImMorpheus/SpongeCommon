@@ -264,7 +264,7 @@ public abstract class MobEntityMixin extends LivingEntityMixin {
         return attackSucceeded;
     }
 
-    @ModifyConstant(method = "checkDespawn", constant = @Constant(doubleValue = 16384.0D))
+    //@ModifyConstant(method = "checkDespawn", constant = @Constant(doubleValue = 16384.0D))
     private double getHardDespawnRange(final double value) {
         if (!this.level.isClientSide) {
             return Math.pow(((IServerWorldInfoBridge) this.level.getLevelData()).bridge$getConfigAdapter().get().entity.living.hardDespawnRange, 2);
@@ -273,7 +273,7 @@ public abstract class MobEntityMixin extends LivingEntityMixin {
     }
 
     // Note that this should inject twice.
-    @ModifyConstant(method = "checkDespawn", constant = @Constant(doubleValue = 1024.0D), expect = 2)
+    //@ModifyConstant(method = "checkDespawn", constant = @Constant(doubleValue = 1024.0D), expect = 2)
     private double getSoftDespawnRange(final double value) {
         if (!this.level.isClientSide) {
             return Math.pow(((IServerWorldInfoBridge) this.level.getLevelData()).bridge$getConfigAdapter().get().entity.living.softDespawnRange, 2);

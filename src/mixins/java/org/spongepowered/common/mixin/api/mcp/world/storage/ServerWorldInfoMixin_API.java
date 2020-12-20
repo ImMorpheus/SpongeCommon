@@ -44,7 +44,7 @@ import java.util.UUID;
 @SuppressWarnings("ConstantConditions")
 @Mixin(ServerWorldInfo.class)
 @Implements(@Interface(iface = ServerWorldProperties.class, prefix = "serverWorldProperties$"))
-public abstract class ServerWorldInfoMixin_API implements IServerWorldInfoMixin_API {
+public abstract class ServerWorldInfoMixin_API {
 
     // @formatter:off
     @Shadow private boolean initialized;
@@ -59,30 +59,30 @@ public abstract class ServerWorldInfoMixin_API implements IServerWorldInfoMixin_
     public boolean serverWorldProperties$isInitialized() {
         return this.initialized;
     }
-
-    @Override
-    public MutableWorldGenerationSettings getWorldGenerationSettings() {
-        return (MutableWorldGenerationSettings) this.worldGenSettings;
-    }
-
-    @Override
-    public void setHardcore(final boolean state) {
-        ((WorldSettingsAccessor) (Object) this.settings).accessor$setHardcode(state);
-    }
-
-    @Override
-    public void setCommandsEnabled(final boolean state) {
-        ((WorldSettingsAccessor) (Object) this.settings).accessor$setAllowCommands(state);
-    }
-
-    @Override
-    public void setDifficulty(final org.spongepowered.api.world.difficulty.Difficulty difficulty) {
-        this.shadow$setDifficulty((Difficulty) (Object) difficulty);
-    }
-
-    @Override
-    public Optional<UUID> getWanderTraderUniqueId() {
-        return Optional.ofNullable(this.wanderingTraderId);
-    }
+//
+//    @Override
+//    public MutableWorldGenerationSettings getWorldGenerationSettings() {
+//        return (MutableWorldGenerationSettings) this.worldGenSettings;
+//    }
+//
+//    @Override
+//    public void setHardcore(final boolean state) {
+//        ((WorldSettingsAccessor) (Object) this.settings).accessor$setHardcode(state);
+//    }
+//
+//    @Override
+//    public void setCommandsEnabled(final boolean state) {
+//        ((WorldSettingsAccessor) (Object) this.settings).accessor$setAllowCommands(state);
+//    }
+//
+//    @Override
+//    public void setDifficulty(final org.spongepowered.api.world.difficulty.Difficulty difficulty) {
+//        this.shadow$setDifficulty((Difficulty) (Object) difficulty);
+//    }
+//
+//    @Override
+//    public Optional<UUID> getWanderTraderUniqueId() {
+//        return Optional.ofNullable(this.wanderingTraderId);
+//    }
 
 }

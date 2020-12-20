@@ -105,19 +105,19 @@ public abstract class CommandSourceMixin implements CommandSourceBridge {
         this.impl$cause = PhaseTracker.getCauseStackManager().getCurrentCause();
         final EventContext context = this.impl$cause.getContext();
 
-        context.get(EventContextKeys.LOCATION).ifPresent(x ->{
-            this.worldPosition = VecHelper.toVanillaVector3d(x.getPosition());
-            this.level = (ServerWorld) x.getWorld();
-        });
-
-        context.get(EventContextKeys.ROTATION).ifPresent(x -> this.rotation = new Vector2f((float) x.getX(), (float) x.getY()));
-        context.get(EventContextKeys.SUBJECT).ifPresent(x -> {
-            if (x instanceof EntityAccessor) {
-                this.permissionLevel = ((EntityAccessor) x).invoker$getPermissionLevel();
-            } else if (x instanceof MinecraftServer && !((MinecraftServer) x).isSingleplayer()) {
-                this.permissionLevel = 4;
-            }
-        });
+//        context.get(EventContextKeys.LOCATION).ifPresent(x ->{
+//            this.worldPosition = VecHelper.toVanillaVector3d(x.getPosition());
+//            this.level = (ServerWorld) x.getWorld();
+//        });
+//
+//        context.get(EventContextKeys.ROTATION).ifPresent(x -> this.rotation = new Vector2f((float) x.getX(), (float) x.getY()));
+//        context.get(EventContextKeys.SUBJECT).ifPresent(x -> {
+//            if (x instanceof EntityAccessor) {
+//                this.permissionLevel = ((EntityAccessor) x).invoker$getPermissionLevel();
+//            } else if (x instanceof MinecraftServer && !((MinecraftServer) x).isSingleplayer()) {
+//                this.permissionLevel = 4;
+//            }
+//        });
     }
 
     /*

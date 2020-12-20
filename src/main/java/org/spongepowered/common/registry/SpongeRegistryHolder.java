@@ -51,31 +51,16 @@ public final class SpongeRegistryHolder implements RegistryHolder {
     private final Map<ResourceKey, net.minecraft.util.registry.Registry<net.minecraft.util.registry.Registry<?>>> roots = new Object2ObjectOpenHashMap<>();
 
     public SpongeRegistryHolder() {
-        this.roots.put(
-            RegistryRoots.MINECRAFT,
-            new SimpleRegistry<>(
-                net.minecraft.util.RegistryKey.createRegistryKey((ResourceLocation) (Object) RegistryRoots.MINECRAFT),
-                Lifecycle.experimental()
-            )
-        );
-        this.roots.put(
-            RegistryRoots.SPONGE,
-            new SimpleRegistry<>(
-                RegistryKeyAccessor.invoker$create(
-                    (ResourceLocation) (Object) RegistryRoots.SPONGE,
-                    (ResourceLocation) (Object) RegistryRoots.SPONGE
-                ),
-                Lifecycle.stable()
-            )
-        );
     }
 
     public void setRootMinecraftRegistry(final net.minecraft.util.registry.Registry<net.minecraft.util.registry.Registry<?>> rootRegistry) {
+        lazyLoad();
         this.roots.put(RegistryRoots.MINECRAFT, rootRegistry);
     }
 
     @Override
     public <T> Registry<T> registry(final RegistryType<T> type) {
+        lazyLoad();
         Objects.requireNonNull(type, "type");
         final net.minecraft.util.registry.Registry<net.minecraft.util.registry.Registry<?>> root = this.roots.get(type.root());
         if (root == null) {
@@ -90,6 +75,7 @@ public final class SpongeRegistryHolder implements RegistryHolder {
 
     @Override
     public <T> Optional<Registry<T>> findRegistry(final RegistryType<T> type) {
+        lazyLoad();
         Objects.requireNonNull(type, "type");
         final net.minecraft.util.registry.Registry<net.minecraft.util.registry.Registry<?>> root = this.roots.get(type.root());
         if (root == null) {
@@ -100,6 +86,7 @@ public final class SpongeRegistryHolder implements RegistryHolder {
 
     @Override
     public Stream<Registry<?>> stream(final ResourceKey root) {
+        lazyLoad();
         Objects.requireNonNull(root, "root");
         final net.minecraft.util.registry.Registry<net.minecraft.util.registry.Registry<?>> rootRegistry = this.roots.get(root);
         if (rootRegistry == null) {
@@ -127,6 +114,7 @@ public final class SpongeRegistryHolder implements RegistryHolder {
         final @Nullable Supplier<Map<ResourceKey, T>> defaultValues,
         final boolean isDynamic
     ) {
+        lazyLoad();
         Objects.requireNonNull(type, "type");
 
         final net.minecraft.util.registry.Registry<net.minecraft.util.registry.Registry<?>> root = this.roots.get(type.root());
@@ -158,5 +146,30 @@ public final class SpongeRegistryHolder implements RegistryHolder {
             }
         }
         return (Registry<T>) registry;
+    }
+
+    boolean flag = false;
+    public void lazyLoad() {
+        if (flag) return;
+
+        this.roots.put(
+                RegistryRoots.MINECRAFT,
+                new SimpleRegistry<>(
+                        net.minecraft.util.RegistryKey.createRegistryKey((ResourceLocation) (Object) RegistryRoots.MINECRAFT),
+                        Lifecycle.experimental()
+                )
+        );
+        this.roots.put(
+                RegistryRoots.SPONGE,
+                new SimpleRegistry<>(
+                        RegistryKeyAccessor.invoker$create(
+                                (ResourceLocation) (Object) RegistryRoots.SPONGE,
+                                (ResourceLocation) (Object) RegistryRoots.SPONGE
+                        ),
+                        Lifecycle.stable()
+                )
+        );
+        flag=true;
+
     }
 }

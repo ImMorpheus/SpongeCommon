@@ -233,16 +233,16 @@ public abstract class MinecraftServerMixin extends RecursiveEventLoop<TickDelaye
     @Overwrite
     public boolean saveAllChunks(final boolean suppressLog, final boolean flush, final boolean isForced) {
         for (final ServerWorld world : this.shadow$getAllLevels()) {
-            final SerializationBehavior serializationBehavior = ((IServerWorldInfoBridge) world.getLevelData()).bridge$getSerializationBehavior();
+            //final SerializationBehavior serializationBehavior = ((IServerWorldInfoBridge) world.getLevelData()).bridge$getSerializationBehavior();
             boolean log = !suppressLog;
 
             // Not forced happens during ticks and when shutting down
             if (!isForced) {
-                final InheritableConfigHandle<WorldConfig> adapter = ((IServerWorldInfoBridge) world.getLevelData()).bridge$getConfigAdapter();
-                final int autoSaveInterval = adapter.get().world.autoSaveInterval;
+                //final InheritableConfigHandle<WorldConfig> adapter = ((IServerWorldInfoBridge) world.getLevelData()).bridge$getConfigAdapter();
+                //final int autoSaveInterval = adapter.get().world.autoSaveInterval;
                 if (log) {
                     if (this.bridge$performAutosaveChecks()) {
-                        log = adapter.get().world.logAutoSave;
+                        //log = adapter.get().world.logAutoSave;
                     }
                 }
 
@@ -250,28 +250,28 @@ public abstract class MinecraftServerMixin extends RecursiveEventLoop<TickDelaye
 
                 // If the server isn't running or we hit Vanilla's save interval, save our configs
                 if (!this.shadow$isRunning() || this.tickCount % 6000 == 0) {
-                    ((IServerWorldInfoBridge) world.getLevelData()).bridge$getConfigAdapter().save();
+                    //((IServerWorldInfoBridge) world.getLevelData()).bridge$getConfigAdapter().save();
                 }
 
-                final boolean canSaveAtAll = serializationBehavior != SerializationBehavior.NONE;
+              //  final boolean canSaveAtAll = serializationBehavior != SerializationBehavior.NONE;
 
                 // This world is set to not save of any time, no reason to check the auto-save/etc, skip it
-                if (!canSaveAtAll) {
-                    continue;
-                }
+                //if (!canSaveAtAll) {
+                  //  continue;
+                //}
 
                 // Only run auto-save skipping if the server is still running
                 if (this.bridge$performAutosaveChecks()) {
 
                     // Do not process properties or chunks if the world is not set to do so unless the server is shutting down
-                    if (autoSaveInterval <= 0 || serializationBehavior != SerializationBehavior.AUTOMATIC) {
-                        continue;
-                    }
+                  //  if (autoSaveInterval <= 0 || serializationBehavior != SerializationBehavior.AUTOMATIC) {
+                    ///    continue;
+                    //}
 
                     // Now check the interval vs the tick counter and skip it
-                    if (this.tickCount % autoSaveInterval != 0) {
-                        continue;
-                    }
+                    //if (this.tickCount % autoSaveInterval != 0) {
+                      //  continue;
+                    //}
                 }
 
                 world.save(null, false, world.noSave);
@@ -289,7 +289,7 @@ public abstract class MinecraftServerMixin extends RecursiveEventLoop<TickDelaye
                     MinecraftServerMixin.LOGGER.info("Manually saving data for world '{}'", ((org.spongepowered.api.world.server.ServerWorld) world).getKey());
                 }
 
-                ((IServerWorldInfoBridge) world.getLevelData()).bridge$getConfigAdapter().save();
+                //((IServerWorldInfoBridge) world.getLevelData()).bridge$getConfigAdapter().save();
 
                 world.save(null, false, world.noSave);
             }

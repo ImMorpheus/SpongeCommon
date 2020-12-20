@@ -417,42 +417,42 @@ public final class SpongeRegistryLoaders {
 
     public static RegistryLoader<ClientCompletionKey<?>> clientCompletionKey() {
         return RegistryLoader.of(l -> {
-            l.add(ClientCompletionKeys.BLOCK_PREDICATE, k -> new SpongeBasicClientCompletionKey(k, ((ArgumentSerializerAccessor<?>) k).accessor$constructor().get()));
-            l.add(ClientCompletionKeys.BLOCK_STATE, k -> new SpongeBasicClientCompletionKey(k, ((ArgumentSerializerAccessor<?>) k).accessor$constructor().get()));
-            l.add(ClientCompletionKeys.BOOL, k -> new SpongeBasicClientCompletionKey(k, ((ArgumentSerializerAccessor<?>) k).accessor$constructor().get()));
-            l.add(ClientCompletionKeys.COLOR, k -> new SpongeBasicClientCompletionKey(k, ((ArgumentSerializerAccessor<?>) k).accessor$constructor().get()));
-            l.add(ClientCompletionKeys.COMPONENT, k -> new SpongeBasicClientCompletionKey(k, ((ArgumentSerializerAccessor<?>) k).accessor$constructor().get()));
-            l.add(ClientCompletionKeys.DIMENSION, k -> new SpongeBasicClientCompletionKey(k, ((ArgumentSerializerAccessor<?>) k).accessor$constructor().get()));
-            l.add(ClientCompletionKeys.DOUBLE, k -> new SpongeBasicClientCompletionKey(k, ((ArgumentSerializerAccessor<?>) k).accessor$constructor().get()));
-            l.add(ClientCompletionKeys.ENTITY, SpongeEntityClientCompletionKey::new);
-            l.add(ClientCompletionKeys.ENTITY_ANCHOR, k -> new SpongeBasicClientCompletionKey(k, ((ArgumentSerializerAccessor<?>) k).accessor$constructor().get()));
-            l.add(ClientCompletionKeys.ENTITY_SUMMON, k -> new SpongeBasicClientCompletionKey(k, ((ArgumentSerializerAccessor<?>) k).accessor$constructor().get()));
-            l.add(ClientCompletionKeys.FLOAT, k -> new SpongeBasicClientCompletionKey(k, ((ArgumentSerializerAccessor<?>) k).accessor$constructor().get()));
-            l.add(ClientCompletionKeys.FUNCTION, k -> new SpongeBasicClientCompletionKey(k, ((ArgumentSerializerAccessor<?>) k).accessor$constructor().get()));
-            l.add(ClientCompletionKeys.GAME_PROFILE, k -> new SpongeBasicClientCompletionKey(k, ((ArgumentSerializerAccessor<?>) k).accessor$constructor().get()));
-            l.add(ClientCompletionKeys.INTEGER, k -> new SpongeBasicClientCompletionKey(k, ((ArgumentSerializerAccessor<?>) k).accessor$constructor().get()));
-            l.add(ClientCompletionKeys.ITEM_ENCHANTMENT, k -> new SpongeBasicClientCompletionKey(k, ((ArgumentSerializerAccessor<?>) k).accessor$constructor().get()));
-            l.add(ClientCompletionKeys.ITEM_SLOT, k -> new SpongeBasicClientCompletionKey(k, ((ArgumentSerializerAccessor<?>) k).accessor$constructor().get()));
-            l.add(ClientCompletionKeys.LONG, k -> new SpongeBasicClientCompletionKey(k, ((ArgumentSerializerAccessor<?>) k).accessor$constructor().get()));
-            l.add(ClientCompletionKeys.MESSAGE, k -> new SpongeBasicClientCompletionKey(k, ((ArgumentSerializerAccessor<?>) k).accessor$constructor().get()));
-            l.add(ClientCompletionKeys.MOB_EFFECT, k -> new SpongeBasicClientCompletionKey(k, ((ArgumentSerializerAccessor<?>) k).accessor$constructor().get()));
-            l.add(ClientCompletionKeys.NBT_COMPOUND_TAG, k -> new SpongeBasicClientCompletionKey(k, ((ArgumentSerializerAccessor<?>) k).accessor$constructor().get()));
-            l.add(ClientCompletionKeys.NBT_PATH, k -> new SpongeBasicClientCompletionKey(k, ((ArgumentSerializerAccessor<?>) k).accessor$constructor().get()));
-            l.add(ClientCompletionKeys.NBT_TAG, k -> new SpongeBasicClientCompletionKey(k, ((ArgumentSerializerAccessor<?>) k).accessor$constructor().get()));
-            l.add(ClientCompletionKeys.OBJECTIVE, k -> new SpongeBasicClientCompletionKey(k, ((ArgumentSerializerAccessor<?>) k).accessor$constructor().get()));
-            l.add(ClientCompletionKeys.OBJECTIVE_CRITERIA, k -> new SpongeBasicClientCompletionKey(k, ((ArgumentSerializerAccessor<?>) k).accessor$constructor().get()));
-            l.add(ClientCompletionKeys.OPERATION, k -> new SpongeBasicClientCompletionKey(k, ((ArgumentSerializerAccessor<?>) k).accessor$constructor().get()));
-            l.add(ClientCompletionKeys.PARTICLE, k -> new SpongeBasicClientCompletionKey(k, ((ArgumentSerializerAccessor<?>) k).accessor$constructor().get()));
-            l.add(ClientCompletionKeys.RESOURCE_LOCATION, k -> new SpongeBasicClientCompletionKey(k, ((ArgumentSerializerAccessor<?>) k).accessor$constructor().get()));
-            l.add(ClientCompletionKeys.ROTATION, k -> new SpongeBasicClientCompletionKey(k, ((ArgumentSerializerAccessor<?>) k).accessor$constructor().get()));
-            l.add(ClientCompletionKeys.SCORE_HOLDER, k -> new SpongeAmountClientCompletionKey(k, ScoreHolderArgument.scoreHolder(), ScoreHolderArgument.scoreHolders()));
-            l.add(ClientCompletionKeys.SCOREBOARD_SLOT, k -> new SpongeBasicClientCompletionKey(k, ((ArgumentSerializerAccessor<?>) k).accessor$constructor().get()));
-            l.add(ClientCompletionKeys.STRING, SpongeStringClientCompletionKey::new);
-            l.add(ClientCompletionKeys.SWIZZLE, k -> new SpongeBasicClientCompletionKey(k, ((ArgumentSerializerAccessor<?>) k).accessor$constructor().get()));
-            l.add(ClientCompletionKeys.TEAM, k -> new SpongeBasicClientCompletionKey(k, ((ArgumentSerializerAccessor<?>) k).accessor$constructor().get()));
-            l.add(ClientCompletionKeys.TIME, k -> new SpongeBasicClientCompletionKey(k, ((ArgumentSerializerAccessor<?>) k).accessor$constructor().get()));
-            l.add(ClientCompletionKeys.VEC2, k -> new SpongeBasicClientCompletionKey(k, ((ArgumentSerializerAccessor<?>) k).accessor$constructor().get()));
-            l.add(ClientCompletionKeys.VEC3, k -> new SpongeBasicClientCompletionKey(k, ((ArgumentSerializerAccessor<?>) k).accessor$constructor().get()));
+//            l.add(ClientCompletionKeys.BLOCK_PREDICATE, k -> new SpongeBasicClientCompletionKey(k, ((ArgumentSerializerAccessor<?>) k).accessor$constructor().get()));
+//            l.add(ClientCompletionKeys.BLOCK_STATE, k -> new SpongeBasicClientCompletionKey(k, ((ArgumentSerializerAccessor<?>) k).accessor$constructor().get()));
+//            l.add(ClientCompletionKeys.BOOL, k -> new SpongeBasicClientCompletionKey(k, ((ArgumentSerializerAccessor<?>) k).accessor$constructor().get()));
+//            l.add(ClientCompletionKeys.COLOR, k -> new SpongeBasicClientCompletionKey(k, ((ArgumentSerializerAccessor<?>) k).accessor$constructor().get()));
+//            l.add(ClientCompletionKeys.COMPONENT, k -> new SpongeBasicClientCompletionKey(k, ((ArgumentSerializerAccessor<?>) k).accessor$constructor().get()));
+//            l.add(ClientCompletionKeys.DIMENSION, k -> new SpongeBasicClientCompletionKey(k, ((ArgumentSerializerAccessor<?>) k).accessor$constructor().get()));
+//            l.add(ClientCompletionKeys.DOUBLE, k -> new SpongeBasicClientCompletionKey(k, ((ArgumentSerializerAccessor<?>) k).accessor$constructor().get()));
+//            l.add(ClientCompletionKeys.ENTITY, SpongeEntityClientCompletionKey::new);
+//            l.add(ClientCompletionKeys.ENTITY_ANCHOR, k -> new SpongeBasicClientCompletionKey(k, ((ArgumentSerializerAccessor<?>) k).accessor$constructor().get()));
+//            l.add(ClientCompletionKeys.ENTITY_SUMMON, k -> new SpongeBasicClientCompletionKey(k, ((ArgumentSerializerAccessor<?>) k).accessor$constructor().get()));
+//            l.add(ClientCompletionKeys.FLOAT, k -> new SpongeBasicClientCompletionKey(k, ((ArgumentSerializerAccessor<?>) k).accessor$constructor().get()));
+//            l.add(ClientCompletionKeys.FUNCTION, k -> new SpongeBasicClientCompletionKey(k, ((ArgumentSerializerAccessor<?>) k).accessor$constructor().get()));
+//            l.add(ClientCompletionKeys.GAME_PROFILE, k -> new SpongeBasicClientCompletionKey(k, ((ArgumentSerializerAccessor<?>) k).accessor$constructor().get()));
+//            l.add(ClientCompletionKeys.INTEGER, k -> new SpongeBasicClientCompletionKey(k, ((ArgumentSerializerAccessor<?>) k).accessor$constructor().get()));
+//            l.add(ClientCompletionKeys.ITEM_ENCHANTMENT, k -> new SpongeBasicClientCompletionKey(k, ((ArgumentSerializerAccessor<?>) k).accessor$constructor().get()));
+//            l.add(ClientCompletionKeys.ITEM_SLOT, k -> new SpongeBasicClientCompletionKey(k, ((ArgumentSerializerAccessor<?>) k).accessor$constructor().get()));
+//            l.add(ClientCompletionKeys.LONG, k -> new SpongeBasicClientCompletionKey(k, ((ArgumentSerializerAccessor<?>) k).accessor$constructor().get()));
+//            l.add(ClientCompletionKeys.MESSAGE, k -> new SpongeBasicClientCompletionKey(k, ((ArgumentSerializerAccessor<?>) k).accessor$constructor().get()));
+//            l.add(ClientCompletionKeys.MOB_EFFECT, k -> new SpongeBasicClientCompletionKey(k, ((ArgumentSerializerAccessor<?>) k).accessor$constructor().get()));
+//            l.add(ClientCompletionKeys.NBT_COMPOUND_TAG, k -> new SpongeBasicClientCompletionKey(k, ((ArgumentSerializerAccessor<?>) k).accessor$constructor().get()));
+//            l.add(ClientCompletionKeys.NBT_PATH, k -> new SpongeBasicClientCompletionKey(k, ((ArgumentSerializerAccessor<?>) k).accessor$constructor().get()));
+//            l.add(ClientCompletionKeys.NBT_TAG, k -> new SpongeBasicClientCompletionKey(k, ((ArgumentSerializerAccessor<?>) k).accessor$constructor().get()));
+//            l.add(ClientCompletionKeys.OBJECTIVE, k -> new SpongeBasicClientCompletionKey(k, ((ArgumentSerializerAccessor<?>) k).accessor$constructor().get()));
+//            l.add(ClientCompletionKeys.OBJECTIVE_CRITERIA, k -> new SpongeBasicClientCompletionKey(k, ((ArgumentSerializerAccessor<?>) k).accessor$constructor().get()));
+//            l.add(ClientCompletionKeys.OPERATION, k -> new SpongeBasicClientCompletionKey(k, ((ArgumentSerializerAccessor<?>) k).accessor$constructor().get()));
+//            l.add(ClientCompletionKeys.PARTICLE, k -> new SpongeBasicClientCompletionKey(k, ((ArgumentSerializerAccessor<?>) k).accessor$constructor().get()));
+//            l.add(ClientCompletionKeys.RESOURCE_LOCATION, k -> new SpongeBasicClientCompletionKey(k, ((ArgumentSerializerAccessor<?>) k).accessor$constructor().get()));
+//            l.add(ClientCompletionKeys.ROTATION, k -> new SpongeBasicClientCompletionKey(k, ((ArgumentSerializerAccessor<?>) k).accessor$constructor().get()));
+//            l.add(ClientCompletionKeys.SCORE_HOLDER, k -> new SpongeAmountClientCompletionKey(k, ScoreHolderArgument.scoreHolder(), ScoreHolderArgument.scoreHolders()));
+//            l.add(ClientCompletionKeys.SCOREBOARD_SLOT, k -> new SpongeBasicClientCompletionKey(k, ((ArgumentSerializerAccessor<?>) k).accessor$constructor().get()));
+//            l.add(ClientCompletionKeys.STRING, SpongeStringClientCompletionKey::new);
+//            l.add(ClientCompletionKeys.SWIZZLE, k -> new SpongeBasicClientCompletionKey(k, ((ArgumentSerializerAccessor<?>) k).accessor$constructor().get()));
+//            l.add(ClientCompletionKeys.TEAM, k -> new SpongeBasicClientCompletionKey(k, ((ArgumentSerializerAccessor<?>) k).accessor$constructor().get()));
+//            l.add(ClientCompletionKeys.TIME, k -> new SpongeBasicClientCompletionKey(k, ((ArgumentSerializerAccessor<?>) k).accessor$constructor().get()));
+//            l.add(ClientCompletionKeys.VEC2, k -> new SpongeBasicClientCompletionKey(k, ((ArgumentSerializerAccessor<?>) k).accessor$constructor().get()));
+//            l.add(ClientCompletionKeys.VEC3, k -> new SpongeBasicClientCompletionKey(k, ((ArgumentSerializerAccessor<?>) k).accessor$constructor().get()));
         });
     }
 
@@ -570,7 +570,7 @@ public final class SpongeRegistryLoaders {
             l.add(EventContextKeys.LIQUID_FLOW, k -> new SpongeEventContextKey<>(ServerWorld.class));
             l.add(EventContextKeys.LIQUID_MIX, k -> new SpongeEventContextKey<>(ServerWorld.class));
             l.add(EventContextKeys.LOCATION, k -> new SpongeEventContextKey<>(ServerLocation.class));
-            l.add(EventContextKeys.MOVEMENT_TYPE, k -> new SpongeEventContextKey<>(MovementType.class));
+            //l.add(EventContextKeys.MOVEMENT_TYPE, k -> new SpongeEventContextKey<>(MovementType.class));
             l.add(EventContextKeys.NEIGHBOR_NOTIFY_SOURCE, k -> new SpongeEventContextKey<>(BlockSnapshot.class));
             l.add(EventContextKeys.NOTIFIER, k -> new SpongeEventContextKey<>(User.class));
             l.add(EventContextKeys.PISTON_EXTEND, k -> new SpongeEventContextKey<>(ServerWorld.class));
@@ -582,7 +582,7 @@ public final class SpongeRegistryLoaders {
             l.add(EventContextKeys.PROJECTILE_SOURCE, k -> new SpongeEventContextKey<>(ProjectileSource.class));
             l.add(EventContextKeys.ROTATION, k -> new SpongeEventContextKey<>(Vector3d.class));
             l.add(EventContextKeys.SIMULATED_PLAYER, k -> new SpongeEventContextKey<>(GameProfile.class));
-            l.add(EventContextKeys.SPAWN_TYPE, k -> new SpongeEventContextKey<>(SpawnType.class));
+            //l.add(EventContextKeys.SPAWN_TYPE, k -> new SpongeEventContextKey<>(SpawnType.class));
             l.add(EventContextKeys.SUBJECT, k -> new SpongeEventContextKey<>(Subject.class));
             l.add(EventContextKeys.USED_HAND, k -> new SpongeEventContextKey<>(HandType.class));
             l.add(EventContextKeys.USED_ITEM, k -> new SpongeEventContextKey<>(ItemStackSnapshot.class));
@@ -865,7 +865,7 @@ public final class SpongeRegistryLoaders {
                 SpawnTypes.SPAWN_EGG,
                 SpawnTypes.STRUCTURE,
                 SpawnTypes.TNT_IGNITE,
-                SpawnTypes.WEATHER,
+                //SpawnTypes.WEATHER,
                 SpawnTypes.WORLD_SPAWNER
         ));
     }
@@ -897,9 +897,9 @@ public final class SpongeRegistryLoaders {
 
     public static RegistryLoader<WorldArchetype> worldArchetype() {
         return RegistryLoader.of(l -> {
-            l.add(WorldArchetypes.OVERWORLD, k -> SpongeRegistryLoaders.newWorldArchetype(k, DimensionTypes.OVERWORLD));
-            l.add(WorldArchetypes.THE_END, k -> SpongeRegistryLoaders.newWorldArchetype(k, DimensionTypes.THE_END));
-            l.add(WorldArchetypes.THE_NETHER, k -> SpongeRegistryLoaders.newWorldArchetype(k, DimensionTypes.THE_NETHER));
+//            l.add(WorldArchetypes.OVERWORLD, k -> SpongeRegistryLoaders.newWorldArchetype(k, DimensionTypes.OVERWORLD));
+//            l.add(WorldArchetypes.THE_END, k -> SpongeRegistryLoaders.newWorldArchetype(k, DimensionTypes.THE_END));
+//            l.add(WorldArchetypes.THE_NETHER, k -> SpongeRegistryLoaders.newWorldArchetype(k, DimensionTypes.THE_NETHER));
         });
     }
 

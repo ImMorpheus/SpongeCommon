@@ -42,7 +42,7 @@ import java.util.Optional;
 
 public abstract class ResourceKeyedZeroAdvanceValueParameter<T> extends ResourceKeyedArgumentValueParser<T> {
 
-    private static final List<ClientCompletionType> NONE_KEY = Collections.singletonList(ClientCompletionTypes.NONE.get());
+    //private static final List<ClientCompletionType> NONE_KEY = Collections.singletonList(ClientCompletionTypes.NONE.get());
 
     public ResourceKeyedZeroAdvanceValueParameter(final ResourceKey key) {
         super(key);
@@ -70,7 +70,8 @@ public abstract class ResourceKeyedZeroAdvanceValueParameter<T> extends Resource
     @Override
     @NonNull
     public final List<ClientCompletionType> getClientCompletionType() {
-        return ResourceKeyedZeroAdvanceValueParameter.NONE_KEY;
+        return Collections.emptyList();
+        //return ResourceKeyedZeroAdvanceValueParameter.NONE_KEY;
     }
 
     @Override

@@ -39,27 +39,27 @@ import org.spongepowered.common.event.tracking.phase.generation.GenerationPhase;
 @Mixin(ServerChunkProvider.class)
 public abstract class ServerChunkProviderMixin_Tracker {
     
-    @Redirect(
-        method = "tickChunks",
-        at = @At(
-            value = "INVOKE",
-            target = "Lnet/minecraft/world/spawner/WorldEntitySpawner;spawnForChunk(Lnet/minecraft/world/server/ServerWorld;Lnet/minecraft/world/chunk/Chunk;Lnet/minecraft/world/spawner/WorldEntitySpawner$EntityDensityManager;ZZZ)V"
-        )
-    )
-    private void tracker$wrapEntitySpawner(
-        final ServerWorld serverWorld,
-        final Chunk targetChunk,
-        final WorldEntitySpawner.EntityDensityManager manager,
-        final boolean something,
-        final boolean somethingElse,
-        final boolean somethingLast
-    ) {
-        try (final PhaseContext<@NonNull ?> context = GenerationPhase.State.WORLD_SPAWNER_SPAWNING.createPhaseContext(PhaseTracker.SERVER)
-            .world(serverWorld)) {
-            context.buildAndSwitch();
-            WorldEntitySpawner.spawnForChunk(serverWorld, targetChunk, manager, something, somethingElse, somethingLast);
-        }
-    }
+//    @Redirect(
+//        method = "tickChunks",
+//        at = @At(
+//            value = "INVOKE",
+//            target = "Lnet/minecraft/world/spawner/WorldEntitySpawner;spawnForChunk(Lnet/minecraft/world/server/ServerWorld;Lnet/minecraft/world/chunk/Chunk;Lnet/minecraft/world/spawner/WorldEntitySpawner$EntityDensityManager;ZZZ)V"
+//        )
+//    )
+//    private void tracker$wrapEntitySpawner(
+//        final ServerWorld serverWorld,
+//        final Chunk targetChunk,
+//        final WorldEntitySpawner.EntityDensityManager manager,
+//        final boolean something,
+//        final boolean somethingElse,
+//        final boolean somethingLast
+//    ) {
+//        try (final PhaseContext<@NonNull ?> context = GenerationPhase.State.WORLD_SPAWNER_SPAWNING.createPhaseContext(PhaseTracker.SERVER)
+//            .world(serverWorld)) {
+//            context.buildAndSwitch();
+//            WorldEntitySpawner.spawnForChunk(serverWorld, targetChunk, manager, something, somethingElse, somethingLast);
+//        }
+//    }
 
     @Redirect(
         method = "tickChunks",
