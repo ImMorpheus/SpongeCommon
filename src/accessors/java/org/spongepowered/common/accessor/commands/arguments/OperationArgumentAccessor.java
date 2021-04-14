@@ -22,21 +22,20 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package org.spongepowered.common.mixin.invalid.entityactivation.entity.item;
+package org.spongepowered.common.accessor.commands.arguments;
 
-import net.minecraft.entity.item.FireworkRocketEntity;
+import com.mojang.brigadier.exceptions.SimpleCommandExceptionType;
+import net.minecraft.commands.arguments.OperationArgument;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Shadow;
-import org.spongepowered.common.mixin.entityactivation.entity.EntityMixin_EntityActivation;
+import org.spongepowered.asm.mixin.gen.Accessor;
+import org.spongepowered.common.UntransformedAccessorError;
 
-@Mixin(FireworkRocketEntity.class)
-public abstract class FireworkRocketEntityMixin_EntityActivation extends EntityMixin_EntityActivation {
+@Mixin(OperationArgument.class)
+public interface OperationArgumentAccessor {
 
-    @Shadow private int fireworkAge;
-
-    @Override
-    public void activation$inactiveTick() {
-        this.fireworkAge += 1;
-        super.activation$inactiveTick();
+    @Accessor("ERROR_INVALID_OPERATION")
+    static SimpleCommandExceptionType accessor$ERROR_INVALID_OPERATION() {
+        throw new UntransformedAccessorError();
     }
+
 }
